@@ -3,41 +3,16 @@ table {
     width: 100%;
     color: #333;
     font-family: Arial, sans-serif;
-    font-size: 8.5px;
+    font-size: 10.5px;
     font-weight: bold;
     text-align: center;
     border-radius: 9px;
-    overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     margin: auto;
     margin-top: 10px;
     margin-bottom: 20px;
   } 
-  table th {
-  background-color: #4472C4;
-  color: #fff;
-  font-weight: bold;
-  padding: 5px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #ccc;
-  white-space: nowrap;
-}
-
-.capClass{
-background-color: #4472C4;
-  color: #fff;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 5px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
-}
-
+  
 table tr:nth-child(even) td {
   background-color: #f2f2f2;
 }
@@ -64,15 +39,39 @@ font-weight: 600;
 }  
 a:hover, a:visited, a:link, a:active {  
     text-decoration: none;  
-}  
+}
+  
+.capClass{
+	background-color: #4472C4;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+  position: sticky;
+  top: 0px;
+}
 
 .fixTableHead { 
       overflow-y: auto; 
       height: 670px; 
     } 
-    .fixTableHead thead th { 
+    .fixTableHead thead th {
+    	background-color: #4472C4;
+  		color: #fff;
+  		font-weight: bold;
+  		padding: 5px;
+  		text-transform: uppercase;
+  		letter-spacing: 1px;
+  		border-top: 1px solid #fff;
+  		border-bottom: 1px solid #ccc;
+  		white-space: nowrap; 
       position: sticky; 
-      font-size: 11px; 
+      font-size: 12px; 
       text-align: center;
-      top: 0; 
+      top: 25px; 
     } 

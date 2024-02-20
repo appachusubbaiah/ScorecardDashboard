@@ -3,7 +3,7 @@ $(document).ready(function(){
 	$('html,body').css('cursor','wait');
 	$.ajax({
 	    type: "POST",
-	    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/",
+	    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/",
 	    // The key needs to match your method's input parameter (case-sensitive).
 	    data: JSON.stringify(dataMarkers),
 	    contentType: "application/json",
