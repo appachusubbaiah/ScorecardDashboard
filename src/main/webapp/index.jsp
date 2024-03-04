@@ -20,7 +20,7 @@
 <body id="pgeBody" style="background-color:powderblue;">
 <div class="fixTableHead">
 <table id = 'tbl' style="width: 100%" style = "border:1px solid black">
-				<caption class = 'capClass' >CS India Scorecard</caption>
+				<caption class = 'capClass' >CR Scorecard</caption>
 		<thead>
 				<tr>
 					<th>Month&nbsp;</th>
@@ -28,19 +28,16 @@
 					<th>Employee Id</th>
 					<th>Name</th>
 					<th>Team Leader</th>
-					<th>Region</th>
-					<th>Site</th>
-					<th>Score</th>
+					<th>Location</th>
+					<th>Dept</th>
 					<th>Global rank</th>
-					<th>OCR %</th>
-					<th>OCR % Rank</th>
-					<th>OCR % Score</th>
-					<th>OCR Credits</th>
-					<th>OCR Credits Rank</th>
-					<th>OCR Credits Score</th>
+					<th>Total Points</th>
+					<th>Credits Per Hour</th>
+					<th>Credit Rank</th>
+					<th>Credit Score</th>
 					<th>Quality Score</th>
 					<th>Quality Rank</th>
-					<th>Quality Points</th>
+					<th>Quality_Score</th>
 					<th>Stella Star Rating</th>
 					<th>Star Rating Rank</th>
 					<th>Star Rating Score</th>
@@ -53,17 +50,6 @@
 					<th>CMS Defect %</th>
 					<th>CMS Defect Rank</th>
 					<th>CMS Defect Score</th>
-					<th>Skillport/Mandatory Training</th>
-					<th>Skillport/Mandatory Score</th>
-					<th>NPS Stella</th>
-					<th>NPS Rank</th>
-					<th>NPS Score</th>
-					<th>Ref Solicitation Transfer</th>
-					<th>Ref Solicitation Rank</th>
-					<th>Ref Solicitation Score</th>
-					<th>PKT</th>
-					<th>PKT Rank</th>
-					<th>PKT Score</th>
 					<th>Out of</th>
 				</tr>
 		</thead>

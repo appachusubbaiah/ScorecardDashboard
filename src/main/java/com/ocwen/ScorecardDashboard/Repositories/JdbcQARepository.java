@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ocwen.ScorecardDashboard.Responses.CSFormResponse;
 import com.ocwen.ScorecardDashboard.Responses.User;
@@ -19,6 +21,8 @@ import com.ocwen.ScorecardDashboard.exceptions.SCException;
 
 import oracle.jdbc.OracleTypes;
 
+@Repository
+@Component
 public class JdbcQARepository implements QARepository {
 
 	Logger logger = LogManager.getLogger(JdbcQARepository.class);
@@ -54,7 +58,7 @@ public class JdbcQARepository implements QARepository {
 		try{
 			logger.info("Calling procedure SP_GET_USER_DATA");	
 			simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("QA")
-			        .withProcedureName("SP_GET_USER_DATA");
+			        .withProcedureName("SP_GET_ALL_USER_DATA");
 			simpleJdbcCall.addDeclaredParameter(new SqlParameter("ntd", OracleTypes.VARCHAR));
 			simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", OracleTypes.CURSOR, new UserRowmapper()));		
 			Map<String, Object> resultMap = simpleJdbcCall.execute(ntd);
