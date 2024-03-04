@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var dataMarkers = { "Month":"2024-01-01","FusionId":null}
+	/*var dataMarkers = { "Month":"2024-01-01","FusionId":null}
 	$('html,body').css('cursor','wait');
 	$.ajax({
 	    type: "POST",
@@ -57,7 +57,7 @@ $(document).ready(function(){
 		        row += "<td>" + dta[i]['OutOf'] + "</td>"
 		        
 		        /*if(data[i]['Compliance']==0)
-		        	totalPoints=totalPoints + data[i]['PointsLost'];*/
+		        	totalPoints=totalPoints + data[i]['PointsLost'];
 		        row += "</tr>";
 		        $('#data').append(row);
 	    		}
@@ -67,7 +67,7 @@ $(document).ready(function(){
 	    	alert(errMsg);
 	    	$('html,body').css('cursor','default');
 	    }
-	});	
+	});*/	
 });
 
 

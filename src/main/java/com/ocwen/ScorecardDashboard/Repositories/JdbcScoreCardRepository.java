@@ -1,6 +1,8 @@
 package com.ocwen.ScorecardDashboard.Repositories;
 
+import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
+import com.ocwen.ScorecardDashboard.RowMappers.CRRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CSIndRowMapper;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class JdbcScoreCardRepository
   private SimpleJdbcCall simpleJdbcCall;
   
   public List<CSIndResponse> getCsIndScore(String dt, String fusionId) {
-    this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD_CS_IND")
+    this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
       .withProcedureName("SP_GET_CS_IND_SCORECARD");
     this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
     this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
@@ -39,4 +41,21 @@ public class JdbcScoreCardRepository
       pList = (List)resultMap.get("p_result"); 
     return pList;
   }
+
+@Override
+public List<CRResponse> getCRScore(String period, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_MTD_AGNTS");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
+		    List<CRResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+}
+  
+  
 }
