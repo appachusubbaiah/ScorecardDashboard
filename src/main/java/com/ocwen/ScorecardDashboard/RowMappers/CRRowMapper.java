@@ -25,23 +25,28 @@ implements RowMapper<CRResponse>{
 		resp.setCreditPerHr(rs.getDouble("Credit Per Hr"));
 		resp.setCreditRank(rs.getInt("Credit Rank"));
 		resp.setCreditScore(rs.getDouble("Credits Score"));
+		resp.setCreditsTarget(rs.getDouble("CPH_TARGET"));
 		resp.setqScore(rs.getDouble("Quality Score"));
 		resp.setqRank(rs.getInt("Quality Rank"));
 		resp.setqScore(rs.getDouble("Quality_Score"));
+		resp.setQ_target(rs.getDouble("QUALITY_TARGET"));
 		resp.setStellaRating(rs.getDouble("Stella Star Rating"));
 		resp.setStellaRank(rs.getInt("Stella Star Rank"));
 		resp.setStellaScore(rs.getDouble("Stella Star Score"));
+		resp.setStellaTarget(rs.getDouble("STAR_TARGET"));
 		resp.setSa(rs.getDouble("Schedule Adherence"));
 		resp.setSaRank(rs.getInt("Adherence Rank"));
 		resp.setSaScore(rs.getInt("Adherence Score"));
+		resp.setSaTarget(rs.getDouble("ADHERENCE_TARGET"));
 		resp.setAht(rs.getDouble("inbound AHT"));
 		resp.setAhtRank(rs.getInt("AHT Rank"));
 		resp.setAhtScore(rs.getDouble("AHT Score"));
+		resp.setAhtTarget(rs.getInt("IB_AHT_TARGET"));
 		resp.setCmsDefectPer(rs.getDouble("Cms Defect %"));
 		resp.setCmsRank(rs.getInt("Cms Defect Rank"));
 		resp.setCmsScore(rs.getDouble("Cms Defect Score"));
+		resp.setCmsTarget(rs.getDouble("CMS_DEFECT_TARGET"));
 		resp.setOutOf(rs.getInt("Out Of"));
-		
 		return resp;
 	}
 

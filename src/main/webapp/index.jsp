@@ -35,21 +35,27 @@
 					<th>Credits Per Hour</th>
 					<th>Credit Rank</th>
 					<th>Credit Score</th>
+					<th>Credit Target</th>
 					<th>Quality Score</th>
 					<th>Quality Rank</th>
 					<th>Quality_Score</th>
+					<th>Quality Target</th>
 					<th>Stella Star Rating</th>
 					<th>Star Rating Rank</th>
 					<th>Star Rating Score</th>
+					<th>Star Target</th>
 					<th>Schedule Adherence</th>
 					<th>Schedule Adherence Rank</th>
 					<th>Schedule Adherence Score</th>
+					<th>Schedule Adherence Target</th>
 					<th>I/B AHT</th>
 					<th>I/B AHT Rank</th>
 					<th>I/B AHT Score</th>
+					<th>I/B AHT Target</th>
 					<th>CMS Defect %</th>
 					<th>CMS Defect Rank</th>
 					<th>CMS Defect Score</th>
+					<th>CMS Defect Target</th>
 					<th>Out of</th>
 				</tr>
 		</thead>

@@ -15,21 +15,27 @@ public class CRResponse {
 	private double creditPerHr;
 	private int creditRank;
 	private double creditScore;
+	private double creditsTarget;
 	private double qScore;
 	private double q_Score;
 	private int qRank;
+	private double q_target;
 	private double stellaRating;
 	private int stellaRank;
 	private double stellaScore;
+	private double stellaTarget;
 	private double sa;
 	private int saRank;
 	private int saScore;
+	private double saTarget;
 	private double aht;
 	private int ahtRank;
 	private double ahtScore;
+	private int ahtTarget;
 	private double cmsDefectPer;
 	private int cmsRank;
 	private double cmsScore;
+	private double cmsTarget;
 	private int outOf;
 	
 	@JsonProperty("Month")
@@ -255,5 +261,54 @@ public class CRResponse {
 	public void setOutOf(int outOf) {
 		this.outOf = outOf;
 	}
+	
+	@JsonProperty("CreditsTarget")
+	public double getCreditsTarget() {
+		return creditsTarget;
+	}
+	public void setCreditsTarget(double creditsTarget) {
+		this.creditsTarget = creditsTarget;
+	}
+	
+	@JsonProperty("QATarget")
+	public double getQ_target() {
+		return q_target;
+	}
+	public void setQ_target(double q_target) {
+		this.q_target = q_target;
+	}
+	
+	@JsonProperty("StellaTarget")
+	public double getStellaTarget() {
+		return stellaTarget;
+	}
+	public void setStellaTarget(double stellaTarget) {
+		this.stellaTarget = stellaTarget;
+	}
+	
+	@JsonProperty("SATarget")
+	public double getSaTarget() {
+		return saTarget;
+	}
+	public void setSaTarget(double saTarget) {
+		this.saTarget = saTarget;
+	}
+	
+	@JsonProperty("AHTTarget")
+	public int getAhtTarget() {
+		return ahtTarget;
+	}
+	public void setAhtTarget(int ahtTarget) {
+		this.ahtTarget = ahtTarget;
+	}
+	
+	@JsonProperty("CMSTarget")
+	public double getCmsTarget() {
+		return cmsTarget;
+	}
+	public void setCmsTarget(double cmsTarget) {
+		this.cmsTarget = cmsTarget;
+	}
+	
 	
 }

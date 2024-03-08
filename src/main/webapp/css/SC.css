@@ -58,7 +58,7 @@ a:hover, a:visited, a:link, a:active {
 
 .fixTableHead { 
       overflow-y: auto; 
-      height: 670px; 
+      height: 500px; 
     } 
     .fixTableHead thead th {
     	background-color: #4472C4;

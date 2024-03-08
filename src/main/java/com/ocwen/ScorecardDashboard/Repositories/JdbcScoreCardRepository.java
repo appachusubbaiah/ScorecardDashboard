@@ -29,7 +29,7 @@ public class JdbcScoreCardRepository
   private SimpleJdbcCall simpleJdbcCall;
   
   public List<CSIndResponse> getCsIndScore(String dt, String fusionId) {
-    this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+    /*this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
       .withProcedureName("SP_GET_CS_IND_SCORECARD");
     this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
     this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
@@ -39,7 +39,8 @@ public class JdbcScoreCardRepository
     List<CSIndResponse> pList = null;
     if (resultMap != null)
       pList = (List)resultMap.get("p_result"); 
-    return pList;
+    return pList;*/
+    return null;
   }
 
 @Override
