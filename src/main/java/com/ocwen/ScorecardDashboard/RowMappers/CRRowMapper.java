@@ -28,7 +28,7 @@ implements RowMapper<CRResponse>{
 		resp.setCreditsTarget(rs.getDouble("CPH_TARGET"));
 		resp.setqScore(rs.getDouble("Quality Score"));
 		resp.setqRank(rs.getInt("Quality Rank"));
-		resp.setqScore(rs.getDouble("Quality_Score"));
+		resp.setQ_Score(rs.getDouble("Quality_Score"));
 		resp.setQ_target(rs.getDouble("QUALITY_TARGET"));
 		resp.setStellaRating(rs.getDouble("Stella Star Rating"));
 		resp.setStellaRank(rs.getInt("Stella Star Rank"));
