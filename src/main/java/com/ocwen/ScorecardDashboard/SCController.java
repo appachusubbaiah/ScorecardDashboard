@@ -117,7 +117,8 @@ public class SCController
 				{
 				 System.out.println("Querying LDAP for " + user + " on domain " + domain);
 				 logger.info("Querying BISRoster for  " +   user + " on domain " + domain);
-				 List<User> usrs=usrService.getUsers("nairvand");
+				 //List<User> usrs=usrService.getUsers("nairvand");
+				 List<User> usrs=usrService.getUsers(user);
 				 logger.info("User " + usrs.get(0).getName() + " authenticated");
 				 return new ResponseEntity<Object>(usrs.get(0), HttpStatus.OK);
 				}

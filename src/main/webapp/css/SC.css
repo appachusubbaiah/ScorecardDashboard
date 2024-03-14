@@ -3,7 +3,7 @@ table {
     width: 100%;
     color: #333;
     font-family: Arial, sans-serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: bold;
     text-align: center;
     border-radius: 9px;
@@ -58,7 +58,7 @@ a:hover, a:visited, a:link, a:active {
 
 .fixTableHead { 
       overflow-y: auto; 
-      height: 130px; 
+      height: 430px; 
     } 
     .fixTableHead thead th {
     	background-color: #4472C4;
@@ -71,7 +71,7 @@ a:hover, a:visited, a:link, a:active {
   		border-bottom: 1px solid #ccc;
   		white-space: nowrap; 
       position: sticky; 
-      font-size: 7px; 
+      font-size: 10px; 
       text-align: center;
       top: 25px; 
     } 
