@@ -47,6 +47,7 @@ implements RowMapper<CRResponse>{
 		resp.setCmsScore(rs.getDouble("Cms Defect Score"));
 		resp.setCmsTarget(rs.getDouble("CMS_DEFECT_TARGET"));
 		resp.setOutOf(rs.getInt("Out Of"));
+		resp.setYtdGlobalrank(rs.getInt("YTD Global Rank"));
 		return resp;
 	}
 

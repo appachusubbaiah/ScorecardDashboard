@@ -37,6 +37,7 @@ public class CRResponse {
 	private double cmsScore;
 	private double cmsTarget;
 	private int outOf;
+	private int ytdGlobalrank;
 	
 	@JsonProperty("Month")
 	public String getMonth() {
@@ -309,6 +310,15 @@ public class CRResponse {
 	public void setCmsTarget(double cmsTarget) {
 		this.cmsTarget = cmsTarget;
 	}
+	
+	@JsonProperty("YTDGlobalRank")
+	public int getYtdGlobalrank() {
+		return ytdGlobalrank;
+	}
+	public void setYtdGlobalrank(int ytdGlobalrank) {
+		this.ytdGlobalrank = ytdGlobalrank;
+	}
+	
 	
 	
 }

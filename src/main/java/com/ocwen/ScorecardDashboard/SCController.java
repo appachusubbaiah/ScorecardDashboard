@@ -2,6 +2,7 @@ package com.ocwen.ScorecardDashboard;
 
 import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
 import com.ocwen.ScorecardDashboard.Responses.JsonResponse;
 import com.ocwen.ScorecardDashboard.Responses.User;
@@ -117,8 +118,8 @@ public class SCController
 				{
 				 System.out.println("Querying LDAP for " + user + " on domain " + domain);
 				 logger.info("Querying BISRoster for  " +   user + " on domain " + domain);
-				 //List<User> usrs=usrService.getUsers("nairvand");
-				 List<User> usrs=usrService.getUsers(user);
+				 List<User> usrs=usrService.getUsers("victorin");
+				 //List<User> usrs=usrService.getUsers(user);
 				 logger.info("User " + usrs.get(0).getName() + " authenticated");
 				 return new ResponseEntity<Object>(usrs.get(0), HttpStatus.OK);
 				}
@@ -157,6 +158,14 @@ public class SCController
   public ResponseEntity<Object> getCRScorecard(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
     List<CRResponse> pList = null;
     pList = this.crService.getCRScore(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getCRScoreCard/tl"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRTLScorecard(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<CRTLResponse> pList = null;
+    pList = this.crService.getCRTLScore(request);
     return new ResponseEntity(pList, HttpStatus.OK);
   }
   
