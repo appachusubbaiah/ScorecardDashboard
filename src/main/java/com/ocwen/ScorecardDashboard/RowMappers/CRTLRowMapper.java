@@ -13,6 +13,7 @@ implements RowMapper<CRTLResponse>{
 
 	@Override
 	public CRTLResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+		//Rowmapper
 		CRTLResponse resp=new CRTLResponse();
 		resp.setMonth(rs.getString("MONTH"));
 		resp.setUcid(rs.getString("UCID"));
