@@ -34,8 +34,8 @@
 			  	<tr>
 			    	<td rowspan="2">View</td>
 			    	<td rowspan="2"><select style="font-size:15px" name="cboView" id="cboView">
-					    	<option>Tabular</option>
 					    	<option>Graphs</option>
+					    	<option>Tabular</option>
 			    		</select>
 			    	</td>
 			    	<td id = "lblBifor" rowspan="2">Break up</td>
@@ -43,6 +43,11 @@
 			    	<td rowspan="2"><select style="font-size:15px" name="cboBifor" id="cboBifor">
 					    	<option>Monthly</option>
 					    	<option>YTD</option>
+			    		</select>
+			    	</td>
+			    	
+			    	<td id = "lblBifor" rowspan="2">My Peers</td>
+			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
 			    		</select>
 			    	</td>
 			  		  </table>

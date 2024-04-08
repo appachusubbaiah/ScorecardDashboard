@@ -42,6 +42,8 @@ $(document).ready(function(){
 	let chrt2=null;
 	let chrt3=null;
 	let chrt4=null;
+	let chrt5=null;
+	let chrt6=null;
 	var ytdCredits=[];
 	var ytdQA=[];
 	var ytdStella=[];
@@ -156,8 +158,10 @@ $(document).ready(function(){
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
 				var dataMarkers = { "Month": null,"FusionId":data.FusionId};
 				$('#heading').text($('#heading').text() + " for " + data.Name)
-				if(data.Department == 'CCC-R')
-					urlStr = urlStr + "scorecard/";
+				if(data.Department == 'CCC-R'){
+					if(data.Designation=='Agent')
+						urlStr = urlStr + "scorecard/getCRScoreCard";
+				}
 				else
 					{ 
 						/*$('#dialogText').text("Score card for " + data.Department + " is under construction!");
@@ -169,19 +173,17 @@ $(document).ready(function(){
 					}
 					$.ajax({
 					    type: "POST",
-					    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard",
+					    url: urlStr,
 					    // The key needs to match your method's input parameter (case-sensitive).
 					    data: JSON.stringify(dataMarkers),
 					    contentType: "application/json",
 					    //dataType: "json",
 					    success: function(dta){
-					    	/*while(scores.length > 0) {
-								scores.pop();
-							}*/
 					    	
+					    	populateCRAgentPeers();
 					    	console.log(dta);
 					    	renderCR(dta);
-					    	
+					    	$('html,body').css('cursor','default');
 					    	},
 					    error: function(errMsg) {
 					    	$('#dialogText').text(errMsg.responseJSON['Message'])
@@ -202,9 +204,269 @@ $(document).ready(function(){
 	});
 	
 	
+	$("#cboPeers").change(function(){
+		var dataMarkers = { "Month": null,"FusionId":$('#cboPeers').val()};
+		$.ajax({
+		    type: "POST",
+		    url: urlStr,
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: JSON.stringify(dataMarkers),
+		    contentType: "application/json",
+		    //dataType: "json",
+		    success: function(dta){
+		    	debugger;
+		    	console.log(dta);
+		    	$('#heading').text("CR Scorecard for " + dta[0]['Name'])  ;
+		    	while(months.length > 0) {
+		    		months.pop();
+				}
+		    	while(creditscore.length > 0) {
+		    		creditscore.pop();
+				}
+		    	while(creditTarget.length > 0) {
+		    		creditTarget.pop();
+				}
+		    	while(bgColor.length > 0) {
+		    		bgColor.pop();
+				}
+		    	while(bgYColor.length > 0) {
+		    		bgYColor.pop();
+				}
+		    	while(qualityscore.length > 0) {
+		    		qualityscore.pop();
+				}
+		    	while(qualityTarget.length > 0) {
+		    		qualityTarget.pop();
+				}
+		    	while(bgColor1.length > 0) {
+		    		bgColor1.pop();
+				}
+		    	while(bgYColor1.length > 0) {
+		    		bgYColor1.pop();
+				}
+		    	while(stellascore.length > 0) {
+		    		stellascore.pop();
+				}
+		    	while(stellaTarget.length > 0) {
+		    		stellaTarget.pop();
+				}
+		    	while(bgColor2.length > 0) {
+		    		bgColor2.pop();
+				}
+		    	
+		    	while(bgYColor2.length > 0) {
+		    		bgYColor2.pop();
+				}
+		    	
+		    	while(sascore.length > 0) {
+		    		sascore.pop();
+				}
+		    	
+		    	while(saTarget.length > 0) {
+		    		saTarget.pop();
+				}
+		    	
+		    	while(bgColor3.length > 0) {
+		    		bgColor3.pop();
+				}
+		    	
+		    	while(ahtscore.length > 0) {
+		    		ahtscore.pop();
+				}
+		    	
+		    	while(ahtTarget.length > 0) {
+		    		ahtTarget.pop();
+				}
+		    	
+		    	while(bgColor4.length > 0) {
+		    		bgColor4.pop();
+				}
+		    	
+		    	while(cmsscore.length > 0) {
+		    		cmsscore.pop();
+				}
+		    	
+		    	while(cmsTarget.length > 0) {
+		    		cmsTarget.pop();
+				}
+		    	
+		    	while(bgColor5.length > 0) {
+		    		bgColor5.pop();
+				}
+		    	
+		    	while(ytdCredits.length > 0) {
+		    		ytdCredits.pop();
+				}
+		    	
+		    	while(ytdCollection.length > 0) {
+		    		ytdCollection.pop();
+				}
+		    	
+		    	while(creditYtdTarget.length > 0) {
+		    		creditYtdTarget.pop();
+				}
+		    	
+		    	while(targetCollection.length > 0) {
+		    		targetCollection.pop();
+				}
+	        	
+		    	while(ytdQA.length > 0) {
+		    		ytdQA.pop();
+				}
+		    	
+		    	while(ytdCollection.length > 0) {
+		    		ytdCollection.pop();
+				}
+		    	
+		    	while(qualityYtdTarget.length > 0) {
+		    		qualityYtdTarget.pop();
+				}
+		    	
+		    	while(targetCollection.length > 0) {
+		    		targetCollection.pop();
+				}
+		    	
+		    	while(ytdStella.length > 0) {
+		    		ytdStella.pop();
+				}
+		    	
+		    	while(ytdCollection.length > 0) {
+		    		ytdCollection.pop();
+				}
+		    	
+		    	while(stellaYtdTarget.length > 0) {
+		    		stellaYtdTarget.pop();
+				}
+	
+		    	while(stellaYtdTarget.length > 0) {
+		    		stellaYtdTarget.pop();
+				}
+		    	
+				while(targetCollection.length > 0) {
+		    		targetCollection.pop();
+				}
+		    	
+				while(ytdSA.length > 0) {
+					ytdSA.pop();
+				}
+				
+				while(ytdCollection.length > 0) {
+					ytdCollection.pop();
+				}
+				
+				while(saYtdTarget.length > 0) {
+					saYtdTarget.pop();
+				}
+	        	
+				while(targetCollection.length > 0) {
+					targetCollection.pop();
+				}
+				
+				while(ytdAht.length > 0) {
+					ytdAht.pop();
+				}
+				
+				while(ytdCollection.length > 0) {
+					ytdCollection.pop();
+				}
+				
+				while(ahtYtdTarget.length > 0) {
+					ahtYtdTarget.pop();
+				}
+				
+				while(targetCollection.length > 0) {
+					targetCollection.pop();
+				}
+	        	
+				while(ytdCms.length > 0) {
+					ytdCms.pop();
+				}
+				
+				while(ytdCollection.length > 0) {
+					ytdCollection.pop();
+				}
+				
+				while(cmsYtdTarget.length > 0) {
+					cmsYtdTarget.pop();
+				}
+				
+				while(targetCollection.length > 0) {
+					targetCollection.pop();
+				}
+				
+				while(globalRank.length > 0) {
+					globalRank.pop();
+				}
+	        	
+				while(outOf.length > 0) {
+					outOf.pop();
+				}
+	        	
+		    	//populateCRAgentPeers();
+		    	console.log(dta);
+		    	if (chrt) {
+		    	    chrt.destroy();
+		    	}
+		    	if (chrt1) {
+		    	    chrt1.destroy();
+		    	}
+		    	if (chrt2) {
+		    	    chrt2.destroy();
+		    	}
+		    	if (chrt3) {
+		    	    chrt3.destroy();
+		    	}
+		    	if (chrt4) {
+		    	    chrt4.destroy();
+		    	}
+		    	if (chrt5) {
+		    	    chrt5.destroy();
+		    	}
+		    	if (chrt6) {
+		    	    chrt6.destroy();
+		    	}
+		    	renderCR(dta);
+		    	$('html,body').css('cursor','default');
+		    	},
+		    error: function(errMsg) {
+		    	$('#dialogText').text(errMsg.responseJSON['Message'])
+	        	$('#dialog').dialog("open");
+		    	//alert(errMsg);
+		    	$('html,body').css('cursor','default');
+		    }
+    	});
+	});
+	
+	function populateCRAgentPeers(){
+		var dataMarkers = { "Month": null,"FusionId":null};
+		$.ajax({
+		    type: "POST",
+		    url: urlStr,
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: JSON.stringify(dataMarkers),
+		    contentType: "application/json",
+		    //dataType: "json",
+		    success: function(dta){
+		    	for (var i = 0, len = dta.length; i < len; i++) {
+					$("#cboPeers").append('<option value="' + dta[i]['EmpId'] + '">' + dta[i]['Name'] + '</option>');
+				}
+		    	
+		    	
+		    	},
+		    error: function(errMsg) {
+		    	$('#dialogText').text(errMsg.responseJSON['Message'])
+	        	$('#dialog').dialog("open");
+		    	//alert(errMsg);
+		    	$('html,body').css('cursor','default');
+		    }
+    	});
+	}
+	
 	function renderCR(dta)
 	{
 		debugger;
+		$("#data tr").remove();
+		$("#data1 tr").remove();
     	for (var i = 0, len = dta.length; i < len; i++) {
     		
 			var row = "<tr>";
@@ -626,9 +888,13 @@ $(document).ready(function(){
     	    options: options
     	  });
     	
-    	chrt.update();
-    	$('html,body').css('cursor','default');
-    	document.getElementById('myChart').width = 200;
+    	//chrt.update();
+    	//document.getElementById('myChart').width = 200;
+    	
+    	$('#divcharts').show();
+    	$('#lblBifor').show();
+    	$('#cboBifor').show();
+    	$('.fixTableHead').hide();
 	}
 	
 	
