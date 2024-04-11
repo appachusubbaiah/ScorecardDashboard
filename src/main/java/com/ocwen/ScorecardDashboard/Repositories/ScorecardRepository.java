@@ -1,5 +1,6 @@
 package com.ocwen.ScorecardDashboard.Repositories;
 
+import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
@@ -11,4 +12,6 @@ public interface ScorecardRepository {
   List<CSIndResponse> getCsIndScore(String paramString1, String paramString2);
   List<CRResponse> getCRScore(String period,String fusionId);
   List<CRTLResponse> getCRTLScore(String period,String fusionId);
+  List<CRAgentYtdResponse> getYtdAgentScore(String fusionId);
+  
 }

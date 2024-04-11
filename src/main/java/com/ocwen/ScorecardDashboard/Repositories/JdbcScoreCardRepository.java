@@ -1,8 +1,10 @@
 package com.ocwen.ScorecardDashboard.Repositories;
 
+import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
+import com.ocwen.ScorecardDashboard.RowMappers.CRAgentYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRTLRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CSIndRowMapper;
@@ -15,9 +17,6 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
-
-
 
 
 
@@ -69,6 +68,20 @@ public List<CRTLResponse> getCRTLScore(String period, String fusionId) {
 		    
 		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
 		    List<CRTLResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+}
+
+@Override
+public List<CRAgentYtdResponse> getYtdAgentScore(String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_YTD_AGNTS");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRAgentYtdRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
+		    List<CRAgentYtdResponse> pList = null;
 		    if (resultMap != null)
 		      pList = (List)resultMap.get("p_result"); 
 		    return pList;

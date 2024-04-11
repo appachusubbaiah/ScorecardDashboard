@@ -2,6 +2,7 @@ package com.ocwen.ScorecardDashboard.services;
 
 import com.ocwen.ScorecardDashboard.Repositories.JdbcScoreCardRepository;
 import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
+import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 
@@ -28,5 +29,12 @@ public class CRScorecardService
 	  crTlResp=this.rep.getCRTLScore(request.getDt(), request.getFusionId());
 	  
 	  return crTlResp;
+	  }
+  
+  public List<CRAgentYtdResponse> getAgentYtdScore(CSIndRequest request) { 
+	  List<CRAgentYtdResponse> crYtdAgntResp;
+	  crYtdAgntResp=this.rep.getYtdAgentScore(request.getFusionId());
+	  
+	  return crYtdAgntResp;
 	  }
 }

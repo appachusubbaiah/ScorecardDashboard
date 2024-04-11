@@ -27,9 +27,11 @@
 
  <div id="forwardDashboard" style="overflow-x: hidden;">
 			 <div  id= 'tblTop1'>
-				<table style="width:100%;font-size: 15px">
+				<table style="width:100%;font-size: 15px;">
 			  	<tr>
-			    	<th style="font-size:25px" colspan="10" id = "heading">CR Scorecard</th>
+			    	<th style="font-size:25px;" colspan="2" id = "heading">CR Scorecard</th>
+			    	<th style="font-size:25px;" colspan="2" id = "headingGR">Global Rank </th>
+			    	<th colspan="2" id = "heading"><img id="logo" src=""  width="40" height="40" ></th>
 			  	</tr>
 			  	<tr>
 			    	<td rowspan="2">View</td>
@@ -46,13 +48,19 @@
 			    		</select>
 			    	</td>
 			    	
-			    	<td id = "lblBifor" rowspan="2">My Peers</td>
+			    	<td id = "lblBifor" rowspan="2">Peers</td>
 			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
-			    		</select>
+			    		<option value="" disabled selected hidden >......Please select the Agent..............</option></select>
 			    	</td>
 			  		  </table>
 				</div>
 			</div>
+			
+<marquee  id = "topTen" behavior="scroll" direction="left" scrollamount="2">
+</marquee>
+
+
+			
 <div class="fixTableHead">
 <table id = 'tbl' style="width: 100%;border:1px solid black">
 				<caption class = 'capClass' >CR Monthly Scorecard</caption>

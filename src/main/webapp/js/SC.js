@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
+	var ytdAllAgents;
+	var curUserId;
 	var ytdPos;
 	var ytdOutOf;
 	var ytdPosStr;
@@ -147,6 +149,7 @@ $(document).ready(function(){
 	totalCreditTarget=0;
 	totalAht=0;
 	totalCms=0;
+	$('html,body').css('cursor','wait');
 	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
@@ -156,16 +159,20 @@ $(document).ready(function(){
 			$('#dept').val(data["Department"]);
 			$('#location').val(data["Location"]);*/
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
+			if(data.FusionId == '103009')
+				var dataMarkers = { "Month": null,"FusionId":null};
+			else
 				var dataMarkers = { "Month": null,"FusionId":data.FusionId};
-				$('#heading').text($('#heading').text() + " for " + data.Name)
-				if(data.Department == 'CCC-R'){
-					if(data.Designation=='Agent')
+				//$('#heading').text($('#heading').text() + " for " + data.Name)
+				curUserId=data.FusionId;
+				if(data.Department == 'CCC-R' || data.FusionId == '103009'){
+					if(data.Designation=='Agent' || data.FusionId == '103009')
 						urlStr = urlStr + "scorecard/getCRScoreCard";
 				}
 				else
 					{ 
 						/*$('#dialogText').text("Score card for " + data.Department + " is under construction!");
-				    	$('#dialog').dialog("open");
+				    	$('#dialog').dialog("open");	
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
@@ -179,11 +186,11 @@ $(document).ready(function(){
 					    contentType: "application/json",
 					    //dataType: "json",
 					    success: function(dta){
-					    	
+					    	$('#heading').text("CR Scorecard for " + dta[0]['Name']);
 					    	populateCRAgentPeers();
+					    	updateTopTen();
 					    	console.log(dta);
 					    	renderCR(dta);
-					    	$('html,body').css('cursor','default');
 					    	},
 					    error: function(errMsg) {
 					    	$('#dialogText').text(errMsg.responseJSON['Message'])
@@ -204,7 +211,51 @@ $(document).ready(function(){
 	});
 	
 	
+	function updateTopTen()
+	{
+		var dataMarkers = {"FusionId":null};
+		$.ajax({
+		    type: "POST",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: JSON.stringify(dataMarkers),
+		    contentType: "application/json",
+		    //dataType: "json",
+		    success: function(dta){
+		    	debugger;
+		    	ytdAllAgents=dta;
+		    	var str="Our Top Ten Performers : ";
+		    	$('html,body').css('cursor','wait');
+		    	for (var i = 0, len = dta.length; i < 10; i++) {
+		    		str=str + "  " + dta[i].globalRank + ". " +  dta[i].name.toUpperCase() + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
+				}
+		    	$("#topTen").text(str);
+		    	$('html,body').css('cursor','default');
+		    	},
+		    error: function(errMsg) {
+		    	$('#dialogText').text(errMsg.responseJSON['Message'])
+	        	$('#dialog').dialog("open");
+		    	//alert(errMsg);
+		    	$('html,body').css('cursor','default');
+		    }
+    	});
+	}
+	function fetchTier(empId)
+	{
+		debugger;
+		var tier=0;
+		for (var i = 0; i < ytdAllAgents.length; i++)
+		{ 
+			if(ytdAllAgents[i]['empId']==empId){
+				tier=ytdAllAgents[i]['tier'];
+				break;
+			}
+		}
+		return tier;
+	}
+	
 	$("#cboPeers").change(function(){
+		$('html,body').css('cursor','wait');
 		var dataMarkers = { "Month": null,"FusionId":$('#cboPeers').val()};
 		$.ajax({
 		    type: "POST",
@@ -216,7 +267,15 @@ $(document).ready(function(){
 		    success: function(dta){
 		    	debugger;
 		    	console.log(dta);
-		    	$('#heading').text("CR Scorecard for " + dta[0]['Name'])  ;
+		    	$('#heading').text("CR Scorecard for " + dta[0]['Name']);
+		    	var ti=fetchTier(dta[0]['EmpId']);
+		    	if(ti == 1)
+		        	$('#logo').attr("src","Gold.png");
+		    	else if(ti ==2)
+		    		$('#logo').attr("src","Silver.png");
+		    	else
+		    		$('#logo').attr("src","Bronze.png");
+		    	$('#cboView').val('Graphs');
 		    	while(months.length > 0) {
 		    		months.pop();
 				}
@@ -438,20 +497,35 @@ $(document).ready(function(){
 	});
 	
 	function populateCRAgentPeers(){
-		var dataMarkers = { "Month": null,"FusionId":null};
+		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: urlStr,
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
 		    //dataType: "json",
 		    success: function(dta){
+		    	$('html,body').css('cursor','wait');
+		    	$("#cboPeers").empty();
 		    	for (var i = 0, len = dta.length; i < len; i++) {
-					$("#cboPeers").append('<option value="' + dta[i]['EmpId'] + '">' + dta[i]['Name'] + '</option>');
+					$("#cboPeers").append('<option value="' + dta[i]['empId'] + '">' + dta[i]['name'] + '</option>');
 				}
 		    	
-		    	
+		    	var ti=fetchTier(curUserId);
+		    	debugger;
+		    	if(ti == 1 || ti ==0){
+		        	$('#logo').attr("src","Gold.png");
+		    	}
+		    	else if(ti ==2)
+		    		$('#logo').attr("src","Silver.png");
+		    	else
+		    		$('#logo').attr("src","Bronze.png");
+		    	$('html,body').css('cursor','default');
+		    	if(ti==0)
+		    		$("#cboPeers").val($("#cboPeers option:first").val());
+		    	else
+		    		$("#cboPeers").val(curUserId);
 		    	},
 		    error: function(errMsg) {
 		    	$('#dialogText').text(errMsg.responseJSON['Message'])
@@ -465,6 +539,7 @@ $(document).ready(function(){
 	function renderCR(dta)
 	{
 		debugger;
+		$('html,body').css('cursor','wait');
 		$("#data tr").remove();
 		$("#data1 tr").remove();
     	for (var i = 0, len = dta.length; i < len; i++) {
@@ -489,7 +564,7 @@ $(document).ready(function(){
 	       
 	        row += "<td>" + dta[i]['CreditsTarget'].toFixed(3) + "</td>";
 	        creditTarget.push(dta[i]['CreditsTarget'].toFixed(3));
-	        if(dta[i]['CreditsTarget']<dta[i]['CreditPerHr'])
+	        if(dta[i]['CreditsTarget']>dta[i]['CreditPerHr'])
 	        	bgColor.push('red');
 	        else
 	        	bgColor.push('green');
@@ -607,6 +682,7 @@ $(document).ready(function(){
 	        	row1 += "<td>" + dta[i]['Dept'] + "</td>";
 	        	decimalToFraction(sumOfRanks/(i+1));
 	        	row1 += "<td>" +  dta[i]['YTDGlobalRank'] + "</td>";
+	        	$('#headingGR').text("Global Rank " + dta[i]['YTDGlobalRank'])
 		        row1 += "<td>" + (totalCredits/(i+1)).toFixed(3) + "</td>";
 		        ytdQA.push((totalQA/(i+1)).toFixed(3));
 		        ytdCollection.push((totalQA/(i+1)).toFixed(3));
@@ -667,7 +743,7 @@ $(document).ready(function(){
 	    	        type: 'bar',
 	    	        data: creditscore,
 	    	        borderWidth: 1,
-	    	        borderColor: "red",
+	    	        borderColor: "black",
 	    	        backgroundColor: bgColor,
                 	//barPercentage: 0.2,
                 	//categoryPercentage: 1.0
@@ -703,7 +779,7 @@ $(document).ready(function(){
     	        label: 'Quality',
     	        data: qualityscore,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor1,
     	       // barPercentage: 0.2
     	      }
@@ -738,7 +814,7 @@ $(document).ready(function(){
     	        label: 'Stella Star',
     	        data: stellascore,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor2,
     	       // barPercentage: 0.2
     	      }
@@ -773,7 +849,7 @@ $(document).ready(function(){
     	        label: 'Schedule Adherence',
     	        data: sascore,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor3,
     	       // barPercentage: 0.2
     	      }
@@ -808,7 +884,7 @@ $(document).ready(function(){
     	        label: 'AHT',
     	        data: ahtscore,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor4,
     	       // barPercentage: 0.2
     	      }
@@ -843,7 +919,7 @@ $(document).ready(function(){
     	        label: 'CMS Defect%',
     	        data: cmsscore,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor5,
     	       // barPercentage: 0.2
     	      }
@@ -879,7 +955,7 @@ $(document).ready(function(){
     	        label: 'Global Rank',
     	        data: globalRank,
     	        borderWidth: 1,
-    	        borderColor: "red",
+    	        borderColor: "black",
     	        backgroundColor: bgColor5,
     	       // barPercentage: 0.2
     	      }

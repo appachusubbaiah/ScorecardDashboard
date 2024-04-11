@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-      <h1>Under construction</h1>
+      <img id="logo" src="underconstruction.jpg"  width="100%" height="100%" >
    </body>
 </html>
