@@ -17,6 +17,13 @@ implements RowMapper<CRAgentYtdResponse>{
 		resp.setName(rs.getString("EMPLOYEE_NAME"));
 		resp.setGlobalRank(rs.getInt("Global Rank"));
 		resp.setTier(rs.getInt("TIER"));
+		resp.setYtdCredits(rs.getDouble("Credit Per Hr"));
+		resp.setYtdQa(rs.getDouble("Quality Score"));
+		resp.setYtdStella(rs.getDouble("Stella Star Rating"));
+		resp.setYtdSA(rs.getDouble("Schedule Adherence"));
+		resp.setYtdAHT(rs.getDouble("Inbound AHT"));
+		resp.setCmsDefect(rs.getDouble("Cms Defect %"));
+		resp.setDept(rs.getString("DEPT"));
 		return resp;
 	}
 

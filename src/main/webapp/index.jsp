@@ -115,7 +115,7 @@
 				<!-- <th>Location</th> -->
 					<th>Dept</th>
 					<th>Global rank</th>
-					<th>YTD Credit Score</th>
+					<th>YTD Credits</th>
 					<th>YTD Quality</th>
 					<th>YTD Stella Rating</th>
 					<th>YTD Schedule Adherence</th>

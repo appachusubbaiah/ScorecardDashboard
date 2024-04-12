@@ -76,7 +76,11 @@ a:hover, a:visited, a:link, a:active {
       top: 25px; 
     } 
 
+
 #topTen{
-	color: #E21160;
-}
+      font-size: 20px;
+      font-weight: 800;
+      color: #f0655b;
+      font-family: sans-serif;
+      }
     
