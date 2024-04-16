@@ -259,6 +259,21 @@ $(document).ready(function(){
     	});
 	}
 	
+	function fetchYtdGlobalrank(empId)
+	{
+		var glblRnk=0;
+		debugger;
+		for (var i = 0; i < ytdAllAgents.length; i++)
+		{ 
+			if(ytdAllAgents[i]['empId']==empId){
+				glblRnk=ytdAllAgents[i]['globalRank'];
+				break;
+			}
+		}
+		return glblRnk;
+		
+	}
+	
 	function fetchYtdCredits(empId)
 	{
 		debugger;
@@ -723,8 +738,10 @@ $(document).ready(function(){
 	        	row1 += "<td>" + dta[i]['Tl'] + "</td>";
 	        	row1 += "<td>" + dta[i]['Dept'] + "</td>";
 	        	decimalToFraction(sumOfRanks/(i+1));
-	        	row1 += "<td>" +  dta[i]['YTDGlobalRank'] + "</td>";
-	        	$('#headingGR').text("Global Rank " + dta[i]['YTDGlobalRank'])
+	        	//row1 += "<td>" +  dta[i]['YTDGlobalRank'] + "</td>";
+	        	row1 += "<td>" +  fetchYtdGlobalrank(dta[i]['EmpId']) + "</td>";
+	        	//$('#headingGR').text("Global Rank " + dta[i]['YTDGlobalRank'])
+	        	$('#headingGR').text("Global Rank " + fetchYtdGlobalrank(dta[i]['EmpId']));
 		        row1 += "<td>" + ytdCredits[0] + "</td>";
 		        //ytdQA.push((totalQA/(i+1)).toFixed(3));
 		        ytdCollection.push((totalQA/(i+1)).toFixed(3));
