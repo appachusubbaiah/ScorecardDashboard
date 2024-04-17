@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var urlStr="http://awswauto01d:8080/ScorecardDashboard/api/";
+	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
 	var ytdAllAgents;
 	var curUserId;
 	var ytdPos;
@@ -153,7 +153,7 @@ $(document).ready(function(){
 	totalAht=0;
 	totalCms=0;
 	$('html,body').css('cursor','wait');
-	$.get("http://awswauto01d:8080/ScorecardDashboard/api/scorecard/", function(data, status){
+	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
 		debugger;
@@ -162,7 +162,8 @@ $(document).ready(function(){
 			$('#dept').val(data["Department"]);
 			$('#location').val(data["Location"]);*/
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
-			if(data.FusionId == '103009' || data.FusionId == '109944' || data.FusionId == '104086'){
+			if(data.FusionId == '103009' || data.FusionId == '109944' || data.FusionId == '104086' || data.FusionId == '195760')
+			{
 				var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
 			}
@@ -170,6 +171,10 @@ $(document).ready(function(){
 			{
 				if(data.Designation=='Agent')
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};
+				else if(data.Designation=='Team Lead')
+				{
+					var dataMarkers = { "Month": null,"FusionId":null};
+				}
 				else
 					var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
@@ -191,7 +196,7 @@ $(document).ready(function(){
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
-						window.location = "http://awswauto01d:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
+						window.location = "http://localhost:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
 					}
 					$.ajax({
 					    type: "POST",
@@ -232,7 +237,7 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -553,7 +558,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
