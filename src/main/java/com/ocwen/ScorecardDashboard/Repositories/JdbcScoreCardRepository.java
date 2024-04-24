@@ -3,10 +3,12 @@ package com.ocwen.ScorecardDashboard.Repositories;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
 import com.ocwen.ScorecardDashboard.RowMappers.CRAgentYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRTLRowMapper;
+import com.ocwen.ScorecardDashboard.RowMappers.CRTLYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CSIndRowMapper;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,19 @@ public List<CRAgentYtdResponse> getYtdAgentScore(String fusionId) {
 		    
 		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
 		    List<CRAgentYtdResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+}
+
+public List<CRTLYtdResponse> getYtdTLScore(String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_YTD_TL");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRTLYtdRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
+		    List<CRTLYtdResponse> pList = null;
 		    if (resultMap != null)
 		      pList = (List)resultMap.get("p_result"); 
 		    return pList;

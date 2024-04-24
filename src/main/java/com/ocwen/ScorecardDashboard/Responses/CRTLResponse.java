@@ -14,6 +14,7 @@ public class CRTLResponse {
 	private int globalRank;
 	private double totalPoints;
 	private double resCredits;
+	private double resCreditsTarget;
 	private int resCreditsRank;
 	private double resCreditsPoints;
 	private double cphTarget;
@@ -355,4 +356,14 @@ public class CRTLResponse {
 	public void setYtdGlobalrank(int ytdGlobalrank) {
 		this.ytdGlobalrank = ytdGlobalrank;
 	}
+	
+	@JsonProperty("ResolutionCreditsTarget")
+	public double getResCreditsTarget() {
+		return resCreditsTarget;
+	}
+	public void setResCreditsTarget(double resCreditsTarget) {
+		this.resCreditsTarget = resCreditsTarget;
+	}
+	
+	
 }

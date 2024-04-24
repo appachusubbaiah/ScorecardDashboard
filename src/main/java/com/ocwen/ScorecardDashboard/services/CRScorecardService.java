@@ -5,6 +5,7 @@ import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,12 @@ public class CRScorecardService
 	  
 	  return crYtdAgntResp;
 	  }
+  public List<CRTLYtdResponse> getCRTLYtScore(CSIndRequest request) { 
+	  List<CRTLYtdResponse> crYtdTlResp;
+	  crYtdTlResp=this.rep.getYtdTLScore(request.getFusionId());
+	  
+	  return crYtdTlResp;
+	  
+  }
+  
 }

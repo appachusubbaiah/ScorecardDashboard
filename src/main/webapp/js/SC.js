@@ -168,8 +168,10 @@ $(document).ready(function(){
 			}
 			else if(data.Department == 'CCC-R' || data.Department == 'FLEX')
 			{
-				if(data.Designation=='Agent')
+				if(data.Designation=='Agent'){
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};
+					$('#tlScorecard').hide();
+				}
 				else
 					var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
@@ -227,7 +229,7 @@ $(document).ready(function(){
 	});
 	
 	
-	function updateTopTen(x)
+	function  updateTopTen(x)
 	{
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
@@ -791,8 +793,8 @@ $(document).ready(function(){
     	      datasets: [{ 
                     label: 'Target', 
                     data: creditTarget, 
-                    type: 'bar', 
-                    backgroundColor: '#8F908B',
+                    type: 'line', 
+                    backgroundColor: '#ADADB0',
                     //barPercentage: 0.2,
                    // categoryPercentage: 1.0
 		                color: 'red'
@@ -826,8 +828,8 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: qualityTarget, 
-	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    type: 'line', 
+	                    backgroundColor: '#ADADB0',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -856,8 +858,8 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: stellaTarget, 
-	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    type: 'line', 
+	                    backgroundColor: '#ADADB0',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -891,8 +893,8 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: saTarget, 
-	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    type: 'line', 
+	                    backgroundColor: '#ADADB0',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -926,8 +928,8 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: ahtTarget, 
-	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    type: 'line', 
+	                    backgroundColor: '#ADADB0',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -961,8 +963,8 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: cmsTarget, 
-	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    type: 'line', 
+	                    backgroundColor: '#ADADB0',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -1162,6 +1164,10 @@ $(document).ready(function(){
 	    //document.write((letVal * deno) +
 	                         //  num + "/" + deno);
 	}
+	
+	$("#tlScorecard").click(function() {
+		window.location = "http://awswauto01d:8080/ScorecardDashboard/CRTLScorecard.jsp";
+    });
 });
 
 	

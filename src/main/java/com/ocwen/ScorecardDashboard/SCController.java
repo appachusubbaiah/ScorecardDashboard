@@ -4,6 +4,7 @@ import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
 import com.ocwen.ScorecardDashboard.Responses.JsonResponse;
 import com.ocwen.ScorecardDashboard.Responses.User;
@@ -178,4 +179,11 @@ public class SCController
     return new ResponseEntity(pList, HttpStatus.OK);
   }
   
+  @PostMapping(path = {"/getCRScoreCard/tl/ytd"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRTLYtdScores(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<CRTLYtdResponse> pList = null;
+    pList = this.crService.getCRTLYtScore(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
 }
