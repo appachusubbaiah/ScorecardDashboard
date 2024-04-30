@@ -13,5 +13,5 @@ public interface ScorecardRepository {
   List<CRResponse> getCRScore(String period,String fusionId);
   List<CRTLResponse> getCRTLScore(String period,String fusionId);
   List<CRAgentYtdResponse> getYtdAgentScore(String fusionId);
-  
+  List<CRResponse> getCRAgents(String period,String fusionId);
 }

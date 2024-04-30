@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var errorType=0;
-	var urlStr="http://awswauto01d:8080/ScorecardDashboard/api/";
+	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
 	var ytdAllAgents;
 	var curUserId;
 	var ytdPos;
@@ -82,62 +82,30 @@ $(document).ready(function(){
 	var ytdCollection=[];
 	var outOf=[];
 	var globalRank=[];
+	var selectedUser;
 	var sumOfRanks=0;
 	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	var options = {
-		    responsive: true,
-		    maintainAspectRatio:true,
-		    barPercentage: 1,
-            categoryPercentage: 0.3,
-		    scales: {
-		        yAxes: [{
-		            display: true,
-		            ticks: {
-		                beginAtZero: true,
-		                max: 200,
-		                min: 0
-		            },
-		            grid: {
-		                drawBorder: true,
-		              }
-		        }],
-		        xAxes:[{
-		                   gridLines: {
-		                   display:false
-		               }
-		           }]
-		    },
-		    title: {
-		        display: true,
-		        text: "Score Card"
-		    },
-		    tooltips: {
-		        mode: 'index',
-		        intersect: true,
-		    },
-		    hover: {
-		        mode: 'nearest',
-		        intersect: true
-		    },
-		    legend: { display: false },
-		    plugins:{
-		    	datalabels: {
-		    		anchor: 'center',
-		            align: 'top',
-		            color:'#130612',
-	                /*formatter: (value, ctx) => {
-	                  let sum = 0;
-	                  let dataArr = scores;
-	                  //let scores = (value)+"%";
-	                  return scores;
-	                },*/
-		            font: {
-		                weight: 'bold',
-		                size: 12.5
-		              }
-	                     }
-		    }
-		};
+	Chart.defaults.color = '#000';
+	var options = { 
+            plugins: { 
+                title: { 
+                    display: true, 
+                    text: '' 
+                }, 
+            }, 
+            scales: { 
+                x: { 
+                    stacked: true, 
+                    maxBarThickness: 2,
+                    ticks: { color: "red"},
+                }, 
+                y: { 
+                    stacked: true,
+                    maxBarThickness: 2,
+                    ticks: { color: "red", beginAtZero: true },
+                } 
+            } 
+        } ;
 	$('html,body').css('cursor','wait');
 	$( function() {
 	    $( "#dialog" ).dialog({ 'autoOpen': false,buttons: {  
@@ -145,7 +113,7 @@ $(document).ready(function(){
             //debugger;
             console.log($('#dialogText').text());
             if(errorType ==1)
-            	window.location = "http://awswauto01d:8080/ScorecardDashboard/";
+            	window.location = "http://localhost:8080/ScorecardDashboard/";
             }  
         },  
         title: "Scorecard",
@@ -155,6 +123,12 @@ $(document).ready(function(){
         }   });
 	  } );
 	
+	var month = (new Date()).getMonth();
+	for (i=0,j=1; i<=month; i++,j++) {
+		  $('#cboMonth').append('<option  value = ' + j + '> '+ monthNames[i] + '</option>');
+		}
+	var num = $('#mnth option').length;
+	$('#mnth').prop('selectedIndex', num-1);
 	$('#divcharts').hide();
 	$('#lblBifor').hide();
 	$('#cboBifor').hide();
@@ -167,7 +141,7 @@ $(document).ready(function(){
 	totalAht=0;
 	totalCms=0;
 	$('html,body').css('cursor','wait');
-	$.get("http://awswauto01d:8080/ScorecardDashboard/api/scorecard/", function(data, status){
+	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
 		debugger;
@@ -213,7 +187,7 @@ $(document).ready(function(){
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
-						window.location = "http://awswauto01d:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
+						window.location = "http://localhost:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
 					}
 					$.ajax({
 					    type: "POST",
@@ -228,7 +202,8 @@ $(document).ready(function(){
 					    	updateTopTen(dta);
 					    	populateCRAgentPeers();
 					    	console.log(dta);
-					    	
+					    	selectedUser=dta[0]['FusionId']
+					    	renderTeamData(new Date().getFullYear()+"-01-01",dta[0]['FusionId']);
 					    	},
 					    error: function(errMsg) {
 					    	debugger;
@@ -255,7 +230,7 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -271,6 +246,67 @@ $(document).ready(function(){
 				}
 		    	$("#topTen").text(str);
 		    	renderCR(x);
+		    	$('html,body').css('cursor','default');
+		    	},
+		    error: function(errMsg) {
+		    	$('#dialogText').text(errMsg.responseJSON['Message'])
+	        	$('#dialog').dialog("open");
+		    	//alert(errMsg);
+		    	$('html,body').css('cursor','default');
+		    }
+    	});
+	}
+	
+	function renderTeamData(mnth,fusionId){
+		var dataMarkers = { "Month": mnth,"FusionId":fusionId};
+		debugger;
+		$.ajax({
+		    type: "POST",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/tl/agents",
+		    // The key needs to match your method's input parameter (case-sensitive).
+		    data: JSON.stringify(dataMarkers),
+		    contentType: "application/json",
+		    //dataType: "json",
+		    success: function(dta){
+		    	debugger;
+		    	$("#teamData tr").remove();
+				for (var i = 0, len = dta.length; i < len; i++) {
+					var row = "<tr>";
+			        row += "<td>" + dta[i]['Month'] + "</td>";
+			        row += "<td>" + dta[i]['EmpId'] + "</td>"
+			        row += "<td>" + dta[i]['Name'] + "</td>";
+			        row += "<td>" + dta[i]['Tl'] + "</td>";
+			      //  row += "<td>" + dta[i]['Location'] + "</td>";
+			        row += "<td>" + dta[i]['Dept'] + "</td>";
+			        row += "<td>" + dta[i]['GlobalRank'] + " of " + dta[i]['OutOf']  +  "</td>";
+			        row += "<td>" + dta[i]['CreditPerHr'].toFixed(3) + "</td>";
+			       // row += "<td>" + dta[i]['CreditRank'] + "</td>";
+			       // row += "<td>" + dta[i]['CreditScore'] + "</td>";
+			        row += "<td>" + dta[i]['CreditsTarget'].toFixed(3) + "</td>";
+			        row += "<td>" + dta[i]['QAScore'] + "</td>";
+			      //  row += "<td>" + dta[i]['QARank'] + "</td>";
+			      //  row += "<td>" + dta[i]['QA_Score'] + "</td>";
+			        row += "<td>" + dta[i]['QATarget'] + "</td>";
+			        row += "<td>" + dta[i]['Stellarating'] + "</td>";
+			      //  row += "<td>" + dta[i]['StellaRank'] + "</td>";
+			        //row += "<td>" + dta[i]['StellaScore'] + "</td>";
+			        row += "<td>" + dta[i]['StellaTarget'] + "</td>";
+			        row += "<td>" + dta[i]['SA'] + "</td>";
+			       // row += "<td>" + dta[i]['SARank'] + "</td>";
+			        //row += "<td>" + dta[i]['SAScore'] + "</td>";
+			        row += "<td>" + dta[i]['SATarget'] + "</td>";
+			        row += "<td>" + dta[i]['AHT'] + "</td>";
+			       // row += "<td>" + dta[i]['AHTRAnk'] + "</td>";
+			       // row += "<td>" + dta[i]['AHTScore'] + "</td>";
+			        row += "<td>" + dta[i]['AHTTarget'] + "</td>";
+			        row += "<td>" + dta[i]['CMSDefectPer'] + "</td>";
+			        row += "<td>" + dta[i]['CMSTarget'] + "</td>";
+			       // row += "<td>" + dta[i]['CMSRank'] + "</td>";
+			        //row += "<td>" + dta[i]['CMSScore'] + "</td>";
+			        // row += "<td>" + dta[i]['OutOf'] + "</td>";
+			        row += "</tr>";
+			        $('#teamData').append(row);
+				}
 		    	$('html,body').css('cursor','default');
 		    	},
 		    error: function(errMsg) {
@@ -331,6 +367,14 @@ $(document).ready(function(){
 		return tier;
 	}
 	
+	
+	$("#cboMonth").change(function(){
+		//alert($("#cboMonth").val());
+		var dt=new Date();
+		var period=dt.getFullYear() + '-' + $("#cboMonth").val() + "-1"
+		renderTeamData(period,selectedUser);
+	});
+	
 	$("#cboPeers").change(function(){
 		$('html,body').css('cursor','wait');
 		var dataMarkers = { "Month": null,"FusionId":$('#cboPeers').val()};
@@ -344,6 +388,11 @@ $(document).ready(function(){
 		    success: function(dta){
 		    	debugger;
 		    	console.log(dta);
+		    	var dt=new Date();
+		    	$("#cboPeers").val("1");
+				var period=dt.getFullYear() + "-01-01"
+		    	selectedUser=dta[0]['FusionId'];
+		    	renderTeamData(period,dta[0]['FusionId']);
 		    	$('#heading').text("CR Scorecard for " + dta[0]['TLName']);
 		    	var ti=fetchTier(dta[0]['EmpId']);
 		    	if(ti == 1)
@@ -593,7 +642,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -857,7 +906,7 @@ $(document).ready(function(){
     	
     	 ctx=$('#myChart')[0].getContext("2d");
     	Chart.defaults.set("plugins.datalabels", {
-    	      color: "#FE777B",
+    	      color: "#000",
     	    });
     	Chart.register(ChartDataLabels);
     	chrt=new Chart(ctx, {
@@ -868,11 +917,14 @@ $(document).ready(function(){
     	      datasets: [{ 
                     label: 'Target', 
                     data: creditTarget, 
-                    type: 'line', 
-                    backgroundColor: '#8F908B',
+                    //type: 'line', 
+                    backgroundColor: '#2E86C1',
                     //barPercentage: 0.2,
                    // categoryPercentage: 1.0
-		                color: 'red'
+                    font: {
+		                color: 'black',
+		                weight:'bold'
+		              }
                 },
                 {
 	    	        label: 'Credits',
@@ -903,12 +955,12 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: qualityTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	                    //type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -934,12 +986,12 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: stellaTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	                    //type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -970,12 +1022,12 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: saTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	                    //type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -1006,12 +1058,12 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: ahtTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	                    //type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -1043,12 +1095,12 @@ $(document).ready(function(){
     	    		  label: 'Target', 
     	    		  type: 'bar',
 	                    data: cmsTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	                 //   type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -1075,12 +1127,12 @@ $(document).ready(function(){
     	    	  { 
     	    		  label: 'Target', 
 	                    data: collModelDefectTarget, 
-	                    type: 'line', 
-	                    backgroundColor: '#8F908B',
+	              //      type: 'line', 
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black'
 			              }
 	                },
     	    	  {
@@ -1113,7 +1165,7 @@ $(document).ready(function(){
     	    		  label: 'Out of', 
 	                    data: outOf, 
 	                    type: 'bar', 
-	                    backgroundColor: '#8F908B',
+	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
@@ -1168,24 +1220,31 @@ $(document).ready(function(){
 	    	//$('#divYtdcharts').hide();
 	    	chrt.data.datasets[1].data=creditscore;
 	    	chrt.data.datasets[0].data = creditTarget;
+	    	//chrt.data.datasets[0].type = 'line';
 	    	chrt.data.labels=months;
 	    	chrt1.data.datasets[1].data=qualityscore;
 	    	chrt1.data.datasets[0].data=qualityTarget;
+	    	//chrt1.data.datasets[0].type = 'line';
 	    	chrt1.data.labels=months;
 	    	chrt2.data.datasets[1].data=stellascore;
 	    	chrt2.data.datasets[0].data=stellaTarget;
+	    	//chrt2.data.datasets[0].type = 'line';
 	    	chrt2.data.labels=months;
 	    	chrt3.data.datasets[1].data=sascore;
 	    	chrt3.data.datasets[0].data=saTarget
+	    	//chrt3.data.datasets[0].type = 'line';
 	    	chrt3.data.labels=months;
 	    	chrt4.data.datasets[1].data=ahtscore;
 	    	chrt4.data.datasets[0].data=ahtTarget
+	    	//chrt4.data.datasets[0].type = 'line';
 	    	chrt4.data.labels=months;
 	    	chrt5.data.datasets[1].data=cmsscore;
 	    	chrt5.data.datasets[0].data=cmsTarget;
+	    	//chrt5.data.datasets[0].type = 'line';
 	    	chrt5.data.labels=months;
 	    	chrt7.data.datasets[1].data=collModelDefect;
 	    	chrt7.data.datasets[0].data=collModelDefectTarget;
+	    	//chrt7.data.datasets[0].type = 'line';
 	    	chrt7.data.labels=months;
 	    	chrt.update();
 	    	chrt1.update();
@@ -1286,8 +1345,9 @@ $(document).ready(function(){
 	                         //  num + "/" + deno);
 	}
 	
+	
 	$("#agentScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard/";
+		window.location = "http://localhost:8080/ScorecardDashboard/";
     });
 });
 

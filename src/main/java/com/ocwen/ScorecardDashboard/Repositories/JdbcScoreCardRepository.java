@@ -102,7 +102,19 @@ public List<CRTLYtdResponse> getYtdTLScore(String fusionId) {
 		    return pList;
 }
 
-
-  
-  
+@Override
+public List<CRResponse> getCRAgents(String period, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_MTD_TL_AGNTS");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
+		    List<CRResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+	}
+ 
 }

@@ -186,4 +186,12 @@ public class SCController
     pList = this.crService.getCRTLYtScore(request);
     return new ResponseEntity(pList, HttpStatus.OK);
   }
+  
+  @PostMapping(path = {"/getCRScoreCard/tl/agents"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRTLAgents(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<CRResponse> pList = null;
+    pList = this.crService.getCRTLAgents(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
 }

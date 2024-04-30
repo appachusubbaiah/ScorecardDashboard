@@ -38,12 +38,19 @@ public class CRScorecardService
 	  
 	  return crYtdAgntResp;
 	  }
+  
   public List<CRTLYtdResponse> getCRTLYtScore(CSIndRequest request) { 
 	  List<CRTLYtdResponse> crYtdTlResp;
 	  crYtdTlResp=this.rep.getYtdTLScore(request.getFusionId());
 	  
 	  return crYtdTlResp;
+  }
+  
+  public List<CRResponse> getCRTLAgents(CSIndRequest request) { 
+	  List<CRResponse> crResp;
+	  crResp=this.rep.getCRAgents(request.getDt(), request.getFusionId());
 	  
+	  return crResp;
   }
   
 }
