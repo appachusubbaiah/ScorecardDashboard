@@ -1,6 +1,8 @@
 package com.ocwen.ScorecardDashboard;
 
 import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
+import com.ocwen.ScorecardDashboard.Responses.CRAMResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRAMYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
@@ -120,7 +122,7 @@ public class SCController
 				{
 				 System.out.println("Querying LDAP for " + user + " on domain " + domain);
 				 logger.info("Querying BISRoster for  " +   user + " on domain " + domain);
-				 //List<User> usrs=usrService.getUsers("magender");
+				 //List<User> usrs=usrService.getUsers("nimmsjam");
 				 List<User> usrs=usrService.getUsers(user);
 				 logger.info("User " + usrs.get(0).getName() + " authenticated");
 				 return new ResponseEntity<Object>(usrs.get(0), HttpStatus.OK);
@@ -192,6 +194,30 @@ public class SCController
   public ResponseEntity<Object> getCRTLAgents(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
     List<CRResponse> pList = null;
     pList = this.crService.getCRTLAgents(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getCRScoreCard/am"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRAMScorecard(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<CRAMResponse> pList = null;
+    pList = this.crService.getCRAMScore(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getCRScoreCard/am/ytd"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRAMYtdScores(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<CRAMYtdResponse> pList = null;
+    pList = this.crService.getCRAMYtScore(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getCRScoreCard/am/tls"})
+  @ResponseBody
+  public ResponseEntity<Object> getCRAMTLs(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+	List<CRTLResponse> pList = null;
+    pList = this.crService.getCRAMTLs(request);
     return new ResponseEntity(pList, HttpStatus.OK);
   }
 }

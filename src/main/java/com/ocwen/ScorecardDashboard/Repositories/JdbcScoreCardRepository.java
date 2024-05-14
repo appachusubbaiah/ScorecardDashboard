@@ -1,10 +1,14 @@
 package com.ocwen.ScorecardDashboard.Repositories;
 
+import com.ocwen.ScorecardDashboard.Responses.CRAMResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRAMYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
+import com.ocwen.ScorecardDashboard.RowMappers.CRAMRowMapper;
+import com.ocwen.ScorecardDashboard.RowMappers.CRAMYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRAgentYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRTLRowMapper;
@@ -117,4 +121,44 @@ public List<CRResponse> getCRAgents(String period, String fusionId) {
 		    return pList;
 	}
  
+public List<CRAMResponse> getCRAMScore(String period, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_MTD_AM");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRAMRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
+		    List<CRAMResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+	}
+
+public List<CRAMYtdResponse> getYtdAmScore(String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_YTD_AM");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRAMYtdRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
+		    List<CRAMYtdResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+}
+
+public List<CRTLResponse> getCRTLs(String dt, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("CR_SC_MTD_AM_TL");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new CRTLRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { dt, fusionId });
+		    List<CRTLResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+	}
 }

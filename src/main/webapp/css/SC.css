@@ -66,17 +66,17 @@ a:hover, a:visited, a:link, a:active {
     	background-color: #4472C4;
   		color: #fff;
   		font-weight: bold;
-  		padding: 0px;
+  		padding: 10px;
   		text-transform: uppercase;
   		letter-spacing: 1px;
   		border-top: 1px solid #fff;
   		border-bottom: 1px solid #ccc;
   		white-space: nowrap; 
-      position: sticky; 
-      font-size: 10px; 
-      text-align: center;
-      top: 0px; 
-      bottom: 10px;
+	      position: sticky; 
+	      font-size: 10px; 
+	      text-align: center;
+	      top: 0px; 
+	      bottom: 10px;
     } 
 
 

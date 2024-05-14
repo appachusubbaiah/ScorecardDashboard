@@ -2,6 +2,8 @@ package com.ocwen.ScorecardDashboard.services;
 
 import com.ocwen.ScorecardDashboard.Repositories.JdbcScoreCardRepository;
 import com.ocwen.ScorecardDashboard.Requests.CSIndRequest;
+import com.ocwen.ScorecardDashboard.Responses.CRAMResponse;
+import com.ocwen.ScorecardDashboard.Responses.CRAMYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
@@ -52,5 +54,27 @@ public class CRScorecardService
 	  
 	  return crResp;
   }
+  
+  public List<CRAMResponse> getCRAMScore(CSIndRequest request) { 
+	  List<CRAMResponse> crAmResp;
+	  crAmResp=this.rep.getCRAMScore(request.getDt(), request.getFusionId());
+	  
+	  return crAmResp;
+	  }
+  
+  
+  public List<CRAMYtdResponse> getCRAMYtScore(CSIndRequest request) { 
+	  List<CRAMYtdResponse> crYtdAmResp;
+	  crYtdAmResp=this.rep.getYtdAmScore(request.getFusionId());
+	  
+	  return crYtdAmResp;
+  }
+
+public List<CRTLResponse> getCRAMTLs(CSIndRequest request) {
+	 List<CRTLResponse> crTLResp;
+	 crTLResp=this.rep.getCRTLs(request.getDt(), request.getFusionId());
+	  
+	  return crTLResp;
+}
   
 }

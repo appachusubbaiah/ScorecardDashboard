@@ -24,7 +24,7 @@
 <div id="dialog" title="Basic dialog">
   <p id="dialogText"></p>
 </div>
-
+<div id ='mainDiv'>
  <div id="forwardDashboard" style="overflow-x: hidden;">
 			 <div  id= 'tblTop1'>
 				<table style="width:100%;font-size: 15px;">
@@ -52,7 +52,8 @@
 			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
 			    		<option value="" disabled selected hidden >......Please select the Agent..............</option></select>
 			    	</td>
-			    	<td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td> 
+			    	<td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
+			    	<td  rowspan="3"><a id = 'amScorecard' href="#">AM Scorecard</a></td>  
 			  		  </table>
 				</div>
 			</div>
@@ -130,20 +131,21 @@
 	</table>
 	</div>
 </div>
-<div id = 'divcharts'>
-	<div style="margin-top: 30px;height:60%;display: inline-flex">
-		<canvas id='myChart' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-		<canvas id='myChart1' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-		<canvas id='myChart2' style="width:70%;max-width:450px;max-height:200px;height:70%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+	<div id = 'divcharts'>
+		<div style="margin-top: 30px;height:60%;display: inline-flex">
+			<canvas id='myChart' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart1' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart2' style="width:70%;max-width:450px;max-height:200px;height:70%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+		</div>
+		<div style="margin-top: 30px;height:60%;display: inline-flex"	>
+			<canvas id='myChart4' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart5' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart3' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+		</div>
 	</div>
-	<div style="margin-top: 30px;height:60%;display: inline-flex"	>
-		<canvas id='myChart4' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-		<canvas id='myChart5' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-		<canvas id='myChart3' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+	<div id = 'divYtdcharts'>
+		<canvas id='myYtdChart' style="width:70%;max-width:500px;max-height:300px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 	</div>
-</div>
-<div id = 'divYtdcharts'>
-	<canvas id='myYtdChart' style="width:70%;max-width:500px;max-height:300px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 </div>
 </body>
 </html>

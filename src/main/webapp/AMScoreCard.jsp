@@ -12,7 +12,7 @@
 <script src=
 "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     </script>
- <script src="js/TLSC.js"></script> 
+ <script src="js/AMSC.js"></script> 
 <title>CS India Scorecard</title>
 <link rel="stylesheet" href=css/SC.css>
 </head>
@@ -56,9 +56,9 @@
 			    	
 			    	<td id = "lblBifor" rowspan="2">Peers</td>
 			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
-			    		<option value="" disabled selected hidden >......Please select the TL Name..............</option></select>
+			    		<option value="" disabled selected hidden >......Please select the AM's Name..............</option></select>
 			    	</td>
-			    	<td  rowspan="3"><a id = 'amScorecard' href="#">AM Scorecard</a></td> 
+			    	<td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
 			    	<td  rowspan="3"><a id = 'agentScorecard' href="#">Agent Scorecard</a></td> 
 			  		  </table>
 				</div>
@@ -71,6 +71,83 @@
 		<div class="fixTableHead">
 		<table id = 'tbl' style="width: 100%;border:1px solid black">
 						<caption class = 'capClass' >CR Monthly Scorecard</caption>
+				<thead>
+						<tr>
+							<th>Month&nbsp;</th>
+						<!--	<th  width="150px">UC ID</th> -->
+							<th>Employee Id</th>
+							<th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th>Supervisor</th>
+						<!-- <th>Location</th> -->
+							<th>Dept</th>
+							<th>Global Rank</th>
+							<th>Resolution Credits</th>
+						<!--<th>Star Rating Score</th>  -->
+							<th>Resolution Credits Target</th>
+							<th>I/B AHT</th>
+						<!-- <th>I/B AHT Rank</th>
+							<th>I/B AHT Score</th> -->
+							<th>I/B AHT Target</th>
+							<th>CMS Defect %</th>
+						<!-- <th>CMS Defect Rank</th>
+							<th>CMS Defect Score</th> -->
+							<th>CMS Defect Target</th>
+						<th>Call Monitoring Defect</th>
+						<!-- <th>CMS Defect Rank</th>
+							<th>CMS Defect Score</th> -->
+							<th>Call Monitoring Target</th>
+						<th>Collection Model Defect</th>
+						<!-- <th>CMS Defect Rank</th>
+							<th>CMS Defect Score</th> -->
+						    <th>Collection Model Target</th>
+							<th>Quality Score</th>
+							<th>Quality Target</th>	
+						</tr>
+				</thead>
+				<tbody  id = 'data'>
+				</tbody >
+			</table>
+			
+			<div class="fixTableHead">
+				<table id = 'tbl1' style="width: 100%;border:1px solid black">
+						<caption class = 'capClass' >CR YTD Scorecard</caption>
+						<thead>
+						<tr>
+						<!--	<th>Month&nbsp;</th> -->
+						<!--	<th  width="150px">UC ID</th> -->
+							<th>Employee Id</th>
+							<th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th>Supervisor</th>
+						<!-- <th>Location</th> -->
+							<th>Dept</th>
+							<th>Global rank</th>
+							<th>YTD Credits</th>
+							<th>YTD AHT</th>
+							<th>YTD CMS Defect %</th>
+							<th>YTD Call Monitoring Defect</th>
+							<th>YTD Collection Model Defect</th>
+							<th>YTD Quality</th>
+						</tr>
+				</thead>
+				
+				<tbody  id = 'data1'>
+				</tbody >
+			</table>
+			</div>
+			
+			<div style="margin-top: 15px";>
+				<table style="width:100%;font-size: 15px;">
+					  	<caption class = 'capClass' >My Team</caption>
+					  	<tr>
+					    	<td rowspan="2">Month</td>
+					    	<td rowspan="2"><select style="font-size:15px" name="cboMonth" id="cboMonth">
+					    		</select>
+					    	</td>
+				</table>
+			</div>
+			<div class="fixTableHead">
+			<table id = 'tblTeam' style="width: 100%;border:1px solid black">
+						<caption class = 'capClass' >Team Monthly Scorecard</caption>
 				<thead>
 						<tr>
 							<th>Month&nbsp;</th>
@@ -109,85 +186,6 @@
 						<!-- 	<th>Out of</th> -->
 						</tr>
 				</thead>
-				<tbody  id = 'data'>
-				</tbody >
-			</table>
-			
-			<div class="fixTableHead">
-				<table id = 'tbl1' style="width: 100%;border:1px solid black">
-						<caption class = 'capClass' >CR YTD Scorecard</caption>
-						<thead>
-						<tr>
-						<!--	<th>Month&nbsp;</th> -->
-						<!--	<th  width="150px">UC ID</th> -->
-							<th>Employee Id</th>
-							<th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-							<th>Supervisor</th>
-						<!-- <th>Location</th> -->
-							<th>Dept</th>
-							<th>Global rank</th>
-							<th>YTD Credits</th>
-							<th>YTD Stella Rating</th>
-							<th>YTD Schedule Adherence</th>
-							<th>YTD AHT</th>
-							<th>YTD CMS Defect %</th>
-							<th>YTD Call Monitoring Defect</th>
-							<th>YTD Collection Model Defect</th>
-						</tr>
-				</thead>
-				
-				<tbody  id = 'data1'>
-				</tbody >
-			</table>
-			</div>
-			
-			<div style="margin-top: 15px";>
-				<table style="width:100%;font-size: 15px;">
-					  	<caption class = 'capClass' >My Team</caption>
-					  	<tr>
-					    	<td rowspan="2">Month</td>
-					    	<td rowspan="2"><select style="font-size:15px" name="cboMonth" id="cboMonth">
-					    		</select>
-					    	</td>
-				</table>
-			</div>
-			<div class="fixTableHead">
-			<table id = 'tblTeam' style="width: 100%;border:1px solid black">
-						<caption class = 'capClass' >Team Monthly Scorecard</caption>
-				<thead>
-						<tr>
-							<th>Month&nbsp;</th>
-						<!--	<th  width="150px">UC ID</th> -->
-							<th>Employee Id</th>
-							<th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-							<th>Team Leader</th>
-						<!-- <th>Location</th> -->
-							<th>Dept</th>
-							<th>Global Rank</th>
-						<!-- <th>Total Points</th> -->
-							<th>Credits Per Hour</th>
-						<!-- <th>Credit Score</th>  -->
-							<th>Credit Target</th>
-							<th>Quality Score</th>
-						<!-- 	<th>Quality_Score</th>  -->
-							<th>Quality Target</th>
-							<th>Stella Star Rating</th>
-						<!--<th>Star Rating Score</th>  -->
-							<th>Stella Target</th>
-							<th>Schedule Adherence</th>
-						<!-- <th>Schedule Adherence Score</th>  -->
-							<th>Schedule Adherence Target</th>
-							<th>I/B AHT</th>
-						<!-- <th>I/B AHT Rank</th>
-							<th>I/B AHT Score</th> -->
-							<th>I/B AHT Target</th>
-							<th>CMS Defect %</th>
-						<!-- <th>CMS Defect Rank</th>
-							<th>CMS Defect Score</th> -->
-							<th>CMS Defect Target</th>
-						<!-- 	<th>Out of</th> -->
-						</tr>
-				</thead>
 				<tbody  id = 'teamData'>
 				</tbody >
 			</table>
@@ -203,10 +201,6 @@
 			<div style="margin-top: 30px;height:30%;display: inline-flex"	>
 				<canvas id='myChart4' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 				<canvas id='myChart5' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-				<canvas id='myChart3' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
-			</div>
-			<div style="margin-top: 30px;height:30%;display: inline-flex">
-			<H1>&nbsp;</H1>
 				<canvas id='myChart6' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 			</div>
 		</div>

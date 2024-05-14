@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
+	var urlStr="http://awswauto01d:8080/ScorecardDashboard/api/";
 	var ytdAllAgents;
 	var curUserId;
 	var ytdPos;
@@ -108,7 +108,7 @@ $(document).ready(function(){
            at: "center center"  
         }   });
 	  } );
-	
+	$("#mainDiv").hide();
 	$('#divcharts').hide();
 	$('#lblBifor').hide();
 	$('#cboBifor').hide();
@@ -121,7 +121,7 @@ $(document).ready(function(){
 	totalAht=0;
 	totalCms=0;
 	$('html,body').css('cursor','wait');
-	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
+	$.get("http://awswauto01d:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
 		debugger;
@@ -139,6 +139,11 @@ $(document).ready(function(){
 				if(data.Designation=='Agent'){
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};
 					$('#tlScorecard').hide();
+					$('#amScorecard').hide();
+				}
+				else if(data.Designation=='Team Lead'){
+					$('#amScorecard').hide();
+					var dataMarkers = { "Month": null,"FusionId":null};
 				}
 				else
 					var dataMarkers = { "Month": null,"FusionId":null};
@@ -161,10 +166,11 @@ $(document).ready(function(){
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
-						window.location = "http://localhost:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
+						window.location = "http://awswauto01d:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
 					}
+					debugger;
 					$.ajax({
-					    type: "POST",
+						type: "POST",
 					    url: urlStr,
 					    // The key needs to match your method's input parameter (case-sensitive).
 					    data: JSON.stringify(dataMarkers),
@@ -179,7 +185,8 @@ $(document).ready(function(){
 					    	
 					    	},
 					    error: function(errMsg) {
-					    	$('#dialogText').text(errMsg.responseJSON['Message'])
+					    	debugger;
+					    	$('#dialogText').text(errMsg.responseText)
 				        	$('#dialog').dialog("open");
 					    	//alert(errMsg);
 					    	$('html,body').css('cursor','default');
@@ -202,19 +209,28 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
+		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
 		    //dataType: "json",
 		    success: function(dta){
+		    	
+		    	var array=[];
+		    	array=dta;
 		    	debugger;
+		    	array.sort(function(a, b) {
+		    	    return parseInt(a.globalRank) - parseInt(b.globalRank);
+		    	});
 		    	ytdAllAgents=dta;
 		    	var str="Our Top Ten Performers : ";
 		    	$('html,body').css('cursor','wait');
-		    	for (var i = 0, len = dta.length; i < dta.length; i++) {
-		    		if(dta[i].globalRank <=10)
-		    			str=str + "  " + dta[i].globalRank + ". " +  dta[i].name.toUpperCase() + " - " + dta[i].dept + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
+		    	for (var i = 0, len = array.length; i < array.length; i++) {
+		    		if(array[i].globalRank <=10)
+		    			{
+		    				str=str + "  " + array[i].globalRank + ". " +  array[i].name.toUpperCase() + " - " + array[i].dept + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
+		    			}
+		    			
 				}
 		    	$("#topTen").text(str);
 		    	renderCR(x);
@@ -523,7 +539,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
+		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -996,7 +1012,7 @@ $(document).ready(function(){
     	
     	//chrt.update();
     	//document.getElementById('myChart').width = 200;
-    	
+    	$("#mainDiv").show();
     	$('#divcharts').show();
     	$('#lblBifor').show();
     	$('#cboBifor').show();
@@ -1146,7 +1162,11 @@ $(document).ready(function(){
 	}
 	
 	$("#tlScorecard").click(function() {
-		window.location = "http://localhost:8080/ScorecardDashboard/CRTLScorecard.jsp";
+		window.location = "http://awswauto01d:8080/ScorecardDashboard/CRTLScorecard.jsp";
+    });
+	
+	$("#amScorecard").click(function() {
+		window.location = "http://awswauto01d:8080/ScorecardDashboard/AMScoreCard.jsp";
     });
 });
 
