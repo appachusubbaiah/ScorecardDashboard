@@ -134,7 +134,7 @@ $(document).ready(function(){
 				var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
 			}
-			else if(data.Department == 'CCC-R' || data.Department == 'FLEX')
+			else if(data.Department == 'CCC-R' || data.Department == 'FLEX' || data.Department == 'CCC-R SPANISH')
 			{
 				if(data.Designation=='Agent'){
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};

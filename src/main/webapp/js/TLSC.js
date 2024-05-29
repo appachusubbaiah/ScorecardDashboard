@@ -155,7 +155,7 @@ $(document).ready(function(){
 				var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard/tl";
 			}
-			else if(data.Department == 'CCC-R' || data.Department == 'FLEX')
+			else if(data.Department == 'CCC-R' || data.Department == 'FLEX' || data.Department == 'CCC-R SPANISH')
 			{
 				if(data.Designation=='Agent'){
 					window.location = "http://awswauto01d:8080/ScorecardDashboard";
