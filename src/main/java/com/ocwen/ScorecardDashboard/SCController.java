@@ -9,9 +9,12 @@ import com.ocwen.ScorecardDashboard.Responses.CRTLResponse;
 import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
 import com.ocwen.ScorecardDashboard.Responses.JsonResponse;
+import com.ocwen.ScorecardDashboard.Responses.RevCSAgentResponse;
+import com.ocwen.ScorecardDashboard.Responses.RevCSAgentYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.User;
 import com.ocwen.ScorecardDashboard.exceptions.SCException;
 import com.ocwen.ScorecardDashboard.services.CRScorecardService;
+import com.ocwen.ScorecardDashboard.services.ReverseScorecardService;
 import com.ocwen.ScorecardDashboard.services.ScorecardService;
 import com.ocwen.ScorecardDashboard.services.UserService;
 
@@ -48,6 +51,9 @@ public class SCController
   
   @Autowired
   CRScorecardService crService;
+  
+  @Autowired
+  ReverseScorecardService revService;
   
   @Autowired
 	 UserService usrService;
@@ -122,7 +128,7 @@ public class SCController
 				{
 				 System.out.println("Querying LDAP for " + user + " on domain " + domain);
 				 logger.info("Querying BISRoster for  " +   user + " on domain " + domain);
-				 //List<User> usrs=usrService.getUsers("nimmsjam");
+				 //List<User> usrs=usrService.getUsers("vallejar");
 				 List<User> usrs=usrService.getUsers(user);
 				 logger.info("User " + usrs.get(0).getName() + " authenticated");
 				 return new ResponseEntity<Object>(usrs.get(0), HttpStatus.OK);
@@ -218,6 +224,22 @@ public class SCController
   public ResponseEntity<Object> getCRAMTLs(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
 	List<CRTLResponse> pList = null;
     pList = this.crService.getCRAMTLs(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getRevAgentScoreCard"})
+  @ResponseBody
+  public ResponseEntity<Object> getRevAgentScorecard(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<RevCSAgentResponse> pList = null;
+    pList = this.revService.getRevCSAgentScore(request);
+    return new ResponseEntity(pList, HttpStatus.OK);
+  }
+  
+  @PostMapping(path = {"/getRevAgentScoreCard/agent/ytd"})
+  @ResponseBody
+  public ResponseEntity<Object> getRevAgentYtdScores(@RequestBody CSIndRequest request, HttpSession session, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    List<RevCSAgentYtdResponse> pList = null;
+    pList = this.revService.getAgentYtdScore(request);
     return new ResponseEntity(pList, HttpStatus.OK);
   }
 }

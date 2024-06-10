@@ -8,7 +8,7 @@
 "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     </script>
  
-<title>CS India Scorecard</title>
+<title>Reverse CS Scorecard</title>
 <link rel="stylesheet" href=css/SC.css>
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -16,7 +16,7 @@
          rel = "stylesheet">
 <script type="text/JavaScript">
 </script>
-<script src="js/SC.js"></script> 
+<script src="js/RevCS.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -29,7 +29,7 @@
 			 <div  id= 'tblTop1'>
 				<table style="width:100%;font-size: 15px;">
 			  	<tr>
-			    	<th style="font-size:25px;" colspan="2" id = "heading">CR Scorecard</th>
+			    	<th style="font-size:25px;" colspan="2" id = "heading">Reverse CS Scorecard</th>
 			    	<th style="font-size:25px;" colspan="2" id = "headingGR">Global Rank </th>
 			    	<th colspan="2" id = "heading"><img id="logo" src=""  width="40" height="40" ></th>
 			  	</tr>
@@ -52,8 +52,9 @@
 			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
 			    		<option value="" disabled selected hidden >......Please select the Agent..............</option></select>
 			    	</td>
-			    	<td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
+			    	<!-- <td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
 			    	<td  rowspan="3"><a id = 'amScorecard' href="#">AM Scorecard</a></td>  
+			    	 -->
 			  		  </table>
 				</div>
 			</div>
@@ -65,39 +66,33 @@
 			
 <div class="fixTableHead">
 <table id = 'tbl' style="width: 100%;border:1px solid black">
-				<caption class = 'capClass' >CR Monthly Scorecard</caption>
+				<caption class = 'capClass' >Reverse CS Monthly Scorecard</caption>
 		<thead>
 				<tr>
 					<th>Month&nbsp;</th>
-				<!--	<th  width="150px">UC ID</th> -->
 					<th>Employee Id</th>
 					<th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>Team Leader</th>
-				<!-- <th>Location</th> -->
 					<th>Dept</th>
 					<th>Global Rank</th>
-				<!-- <th>Total Points</th> -->
-					<th>Credits Per Hour</th>
-				<!-- <th>Credit Score</th>  -->
-					<th>Credit Target</th>
-					<th>Quality Score</th>
-				<!-- 	<th>Quality_Score</th>  -->
-					<th>Quality Target</th>
-					<th>Stella Star Rating</th>
-				<!--<th>Star Rating Score</th>  -->
-					<th>Stella Target</th>
-					<th>Schedule Adherence</th>
-				<!-- <th>Schedule Adherence Score</th>  -->
-					<th>Schedule Adherence Target</th>
-					<th>I/B AHT</th>
-				<!-- <th>I/B AHT Rank</th>
-					<th>I/B AHT Score</th> -->
-					<th>I/B AHT Target</th>
-					<th>CMS Defect %</th>
-				<!-- <th>CMS Defect Rank</th>
-					<th>CMS Defect Score</th> -->
-					<th>CMS Defect Target</th>
-				<!-- 	<th>Out of</th> -->
+					<th>Adherence</th>
+					<th>Adherence Target</th>
+					<th>AHT Score</th>
+					<th>AHT Target</th>
+					<th>OCR</th>
+					<th>OCR Target</th>
+					<th>QA</th>
+					<th>QA Target</th>
+					<th>Star Rating</th>
+					<th>Star Target</th>
+					<th>Skillport Completed %</th>
+					<th>Skillport Target</th>
+					<th>VOC</th>
+					<th>VOC Target</th>
+					<th>CMS</th>
+					<th>CMS Target</th>
+					<th>ICW</th>
+					<th>ICW Target</th>
 				</tr>
 		</thead>
 		<tbody  id = 'data'>
@@ -117,12 +112,15 @@
 				<!-- <th>Location</th> -->
 					<th>Dept</th>
 					<th>Global rank</th>
-					<th>YTD Credits</th>
-					<th>YTD Quality</th>
-					<th>YTD Stella Rating</th>
-					<th>YTD Schedule Adherence</th>
+					<th>YTD Adherence</th>
 					<th>YTD AHT</th>
-					<th>YTD CMS Defect %</th>
+					<th>YTD OCR</th>
+					<th>YTD QA</th>
+					<th>YTD Star</th>
+					<th>YTD Skillport</th>
+					<th>YTD VOC</th>
+					<th>YTD CMS</th>
+					<th>YTD ICW</th>
 				</tr>
 		</thead>
 		
@@ -142,8 +140,14 @@
 			<canvas id='myChart5' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 			<canvas id='myChart3' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
 		</div>
+		<div style="margin-top: 30px;height:60%;display: inline-flex"	>
+			<canvas id='myChart6' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart7' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+			<canvas id='myChart8' style="width:70%;max-width:450px;max-height:200px;height:100%;background: #E9F1F9;padding: 8px;margin-left: 10px"></canvas>
+		</div>
 	</div>
-		
+	
+	 
 </div>
 </body>
 </html>

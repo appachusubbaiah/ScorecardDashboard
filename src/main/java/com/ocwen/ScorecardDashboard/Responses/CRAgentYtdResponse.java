@@ -13,8 +13,7 @@ public class CRAgentYtdResponse {
 	private double ytdAHT;
 	private double cmsDefect;
 	
-	
-	
+
 	public String getDept() {
 		return dept;
 	}

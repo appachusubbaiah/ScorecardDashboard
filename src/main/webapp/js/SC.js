@@ -130,7 +130,7 @@ $(document).ready(function(){
 			$('#dept').val(data["Department"]);
 			$('#location').val(data["Location"]);*/
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
-			if(data.FusionId == '103009' || data.FusionId == '109944' || data.FusionId == '104086'){
+			if(data.FusionId == '109944' || data.FusionId == '104086'){
 				var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
 			}
@@ -149,16 +149,11 @@ $(document).ready(function(){
 					var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getCRScoreCard";
 			}
+			else if(data.Department == 'Reverse CS')
+			{
+				window.location = "http://awswauto01d:8080/ScorecardDashboard/ReverseCSAgent.jsp";
+			}
 					
-			
-				//$('#heading').text($('#heading').text() + " for " + data.Name)
-				
-				/*if(data.Department == 'CCC-R' || data.Department == 'FLEX' || data.FusionId == '103009' ||
-						data.FusionId == '109944' || data.FusionId == '104086'){
-					if(data.Designation=='Agent' || data.FusionId == '103009' ||
-							data.FusionId == '109944' || data.FusionId == '104086')
-						urlStr = urlStr + "scorecard/getCRScoreCard";
-				}*/
 				else
 					{ 
 						/*$('#dialogText').text("Score card for " + data.Department + " is under construction!");
@@ -192,7 +187,6 @@ $(document).ready(function(){
 					    	$('html,body').css('cursor','default');
 					    }
 			    	});
-					
 			})
 			.fail(function(xhr, status, error) {
 				debugger;
@@ -974,11 +968,11 @@ $(document).ready(function(){
     	  });
     	console.log("Scores = " + creditscore);
     	
-    	ctx6=$('#myYtdChart')[0].getContext("2d");
+    	/*ctx6=$('#myYtdChart')[0].getContext("2d");
     	/*Chart.defaults.set("plugins.datalabels", {
     	      color: "#FE777B",
     	    });
-    	Chart.register(ChartDataLabels);*/
+    	Chart.register(ChartDataLabels);
     	chrt6=new Chart(ctx6, {
     	    type: 'bar',
     	    plugins: [ChartDataLabels],
@@ -1008,7 +1002,7 @@ $(document).ready(function(){
                 ]
     	    },
     	    options: options
-    	  });
+    	  });*/
     	
     	//chrt.update();
     	//document.getElementById('myChart').width = 200;
