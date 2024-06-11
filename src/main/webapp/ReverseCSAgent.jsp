@@ -101,7 +101,7 @@
 	
 	<div class="fixTableHead">
 		<table id = 'tbl1' style="width: 100%;border:1px solid black">
-				<caption class = 'capClass' >CR YTD Scorecard</caption>
+				<caption class = 'capClass' >Reverse CS YTD Scorecard</caption>
 				<thead>
 				<tr>
 				<!--	<th>Month&nbsp;</th> -->

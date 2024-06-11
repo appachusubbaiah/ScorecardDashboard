@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var urlStr="http://awswauto01d:8080/ScorecardDashboard/api/";
+	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
 	var ytdAllAgents;
 	var curUserId;
 	var ytdPos;
@@ -142,7 +142,7 @@ $(document).ready(function(){
 	totalAht=0;
 	totalCms=0;
 	$('html,body').css('cursor','wait');
-	$.get("http://awswauto01d:8080/ScorecardDashboard/api/scorecard/", function(data, status){
+	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
 		debugger;
@@ -151,7 +151,7 @@ $(document).ready(function(){
 			$('#dept').val(data["Department"]);
 			$('#location').val(data["Location"]);*/
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
-			if(data.FusionId == '109944' || data.FusionId == '104086'){
+			if(data.FusionId == '109944' || data.FusionId == '104086' || data.FusionId == '195911' || data.FusionId == '195760'){
 				var dataMarkers = { "Month": null,"FusionId":null};
 				urlStr = urlStr + "scorecard/getRevAgentScoreCard";
 			}
@@ -177,7 +177,7 @@ $(document).ready(function(){
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
-						window.location = "http://awswauto01d:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
+						window.location = "http://localhost:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
 					}
 					debugger;
 					$.ajax({
@@ -189,7 +189,7 @@ $(document).ready(function(){
 					    //dataType: "json",
 					    success: function(dta){
 					    	curUserId=dta[0]['EmpId'];
-					    	$('#heading').text("CR Scorecard for " + dta[0]['Name']);
+					    	$('#heading').text("Reverse CS Scorecard for " + dta[0]['Name']);
 					    	updateTopTen(dta);
 					    	populateCRAgentPeers();
 					    	console.log(dta);
@@ -219,7 +219,7 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/agent/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -399,7 +399,7 @@ $(document).ready(function(){
 		    success: function(dta){
 		    	debugger;
 		    	console.log(dta);
-		    	$('#heading').text("CR Scorecard for " + dta[0]['Name']);
+		    	$('#heading').text("Reverse CS Scorecard for " + dta[0]['Name']);
 		    	var ti=fetchTier(dta[0]['EmpId']);
 		    	if(ti == 1)
 		        	$('#logo').attr("src","Gold.png");
@@ -700,7 +700,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/agent/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/agent/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -870,12 +870,12 @@ $(document).ready(function(){
 	        //totalCms=totalCms+dta[i]['Skillport'];
 	        row += "<td>" + dta[i]['SkillportTarget'] + "</td>";
 	        skillportTarget.push(dta[i]['SkillportTarget']);
-	        if(dta[i]['Skillport'] >1.5) //Tier5
+	        if(dta[i]['Skillport'] <75) //Tier5
 	        	bgColor5.push('red');
-	        else if(dta[i]['Skillport'] <=1.5 && dta[i]['Skillport'] >1.00) //Tier4
+	        else if(dta[i]['Skillport'] >=75 && dta[i]['Skillport'] <99.99) //Tier4
 	        	bgColor5.push('#EF6C00');
-	        else if(dta[i]['Skillport'] <=1.0 && dta[i]['Skillport'] >0.5) //Tier3
-	        	bgColor5.push('green');
+	        //else if(dta[i]['Skillport'] <=1.0 && dta[i]['Skillport'] >0.5) //Tier3
+	        //	bgColor5.push('green');
 	        else
 	        	bgColor5.push('#74c474');
 	        
@@ -1516,11 +1516,11 @@ $(document).ready(function(){
 	}
 	
 	$("#tlScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard/CRTLScorecard.jsp";
+		window.location = "http://localhost:8080/ScorecardDashboard/CRTLScorecard.jsp";
     });
 	
 	$("#amScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard/AMScoreCard.jsp";
+		window.location = "http://localhost:8080/ScorecardDashboard/AMScoreCard.jsp";
     });
 });
 

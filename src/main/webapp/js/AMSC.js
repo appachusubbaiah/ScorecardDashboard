@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var urlStr="http://awswauto01d:8080/ScorecardDashboard/api/";
+	var urlStr="http://localhost:8080/ScorecardDashboard/api/";
 	var ytdAllAgents;
 	var curUserId;
 	var ytdPos;
@@ -129,7 +129,7 @@ $(document).ready(function(){
 	totalAht=0;
 	totalCms=0;
 	$('html,body').css('cursor','wait');
-	$.get("http://awswauto01d:8080/ScorecardDashboard/api/scorecard/", function(data, status){
+	$.get("http://localhost:8080/ScorecardDashboard/api/scorecard/", function(data, status){
 		console.log(status);
 		console.log(data);	
 		debugger;
@@ -145,10 +145,10 @@ $(document).ready(function(){
 			else if(data.Department == 'CCC-R' || data.Department == 'FLEX' || data.Department == 'CCC-R SPANISH')
 			{
 				if(data.Designation=='Agent'){
-					window.location = "http://awswauto01d:8080/ScorecardDashboard";
+					window.location = "http://localhost:8080/ScorecardDashboard";
 				}
 				else if(data.Designation=='Team Lead'){
-					window.location = "http://awswauto01d:8080/ScorecardDashboard";
+					window.location = "http://localhost:8080/ScorecardDashboard";
 				}
 				else if(data.Designation=='Assistant Manager'){
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};
@@ -174,7 +174,7 @@ $(document).ready(function(){
 						$('html,body').css('cursor','default');
 						return;*/
 					debugger;
-						window.location = "http://awswauto01d:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
+						window.location = "http://localhost:8080/ScorecardDashboard/CSScoreAgentCard.jsp";
 					}
 					debugger;
 					$.ajax({
@@ -218,7 +218,7 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/am/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/am/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -261,7 +261,7 @@ $(document).ready(function(){
 		debugger;
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/am/tls",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/am/tls",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -613,7 +613,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/am/ytd",
+		    url: "http://localhost:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/am/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -1211,11 +1211,11 @@ $(document).ready(function(){
 	}
 	
 	$("#agentScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard";
+		window.location = "http://localhost:8080/ScorecardDashboard";
     });
 	
 	$("#tlScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard/CRTLScorecard.jsp";
+		window.location = "http://localhost:8080/ScorecardDashboard/CRTLScorecard.jsp";
     });
 });
 
