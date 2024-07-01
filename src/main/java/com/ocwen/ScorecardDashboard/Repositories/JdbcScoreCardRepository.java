@@ -9,6 +9,8 @@ import com.ocwen.ScorecardDashboard.Responses.CRTLYtdResponse;
 import com.ocwen.ScorecardDashboard.Responses.CSIndResponse;
 import com.ocwen.ScorecardDashboard.Responses.RevCSAgentResponse;
 import com.ocwen.ScorecardDashboard.Responses.RevCSAgentYtdResponse;
+import com.ocwen.ScorecardDashboard.Responses.RevCSTLResponse;
+import com.ocwen.ScorecardDashboard.Responses.RevCSTLYtdResponse;
 import com.ocwen.ScorecardDashboard.RowMappers.CRAMRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRAMYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CRAgentYtdRowMapper;
@@ -18,6 +20,8 @@ import com.ocwen.ScorecardDashboard.RowMappers.CRTLYtdRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.CSIndRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.RevCSAgentRowMapper;
 import com.ocwen.ScorecardDashboard.RowMappers.RevCSAgentYtdRowMapper;
+import com.ocwen.ScorecardDashboard.RowMappers.RevCSTLRowMapper;
+import com.ocwen.ScorecardDashboard.RowMappers.RevCSTLYtdRowMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -190,6 +194,47 @@ public List<RevCSAgentYtdResponse> getRevCsYtdAgentScore(String fusionId) {
 		    
 		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
 		    List<RevCSAgentYtdResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+	}
+
+public List<RevCSTLResponse> getRevCSTLScore(String period, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("REV_CS_SC_MTD_TL");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new RevCSTLRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
+		    List<RevCSTLResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+}
+
+public List<RevCSTLYtdResponse> getrevCSTLYtdScore(String fusionId)  {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("REV_CS_SC_YTD_TL");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new RevCSTLYtdRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { fusionId });
+		    List<RevCSTLYtdResponse> pList = null;
+		    if (resultMap != null)
+		      pList = (List)resultMap.get("p_result"); 
+		    return pList;
+	}
+
+public List<RevCSAgentResponse> getRevCsAgents(String period, String fusionId) {
+	this.simpleJdbcCall = (new SimpleJdbcCall(this.jdbcTemplate)).withCatalogName("SCORECARD")
+		      .withProcedureName("REV_CS_SC_TL_AGNTS");
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("period", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlParameter("vfusionid", 12));
+		    this.simpleJdbcCall.addDeclaredParameter(new SqlOutParameter("p_result", -10, new RevCSAgentRowMapper()));
+		    
+		    Map<String, Object> resultMap = this.simpleJdbcCall.execute(new Object[] { period, fusionId });
+		    List<RevCSAgentResponse> pList = null;
 		    if (resultMap != null)
 		      pList = (List)resultMap.get("p_result"); 
 		    return pList;

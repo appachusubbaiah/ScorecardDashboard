@@ -52,9 +52,7 @@
 			    	<td rowspan="2"><select style="font-size:15px" name="cboPeers" id="cboPeers">
 			    		<option value="" disabled selected hidden >......Please select the Agent..............</option></select>
 			    	</td>
-			    	<!-- <td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
-			    	<td  rowspan="3"><a id = 'amScorecard' href="#">AM Scorecard</a></td>  
-			    	 -->
+			    	 <td  rowspan="3"><a id = 'tlScorecard' href="#">TL Scorecard</a></td>
 			  		  </table>
 				</div>
 			</div>

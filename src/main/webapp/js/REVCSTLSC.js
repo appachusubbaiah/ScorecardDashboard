@@ -18,12 +18,20 @@ $(document).ready(function(){
 	var stellascore=[];
 	var stellaTarget=[];
 	var stellaYtdTarget=[];
+	var vocYtdTarget=[];
+	var ytdIcw=[];
 	var sascore=[];
 	var saTarget=[];
 	var saYtdTarget=[];
 	var ahtscore=[];
 	var ahtTarget=[];
 	var ahtYtdTarget=[];
+	var ocrYtdTarget=[];
+	var icwYtdTarget=[];
+	var ytdSkillport=[];
+	var skillportYtdTarget=[];
+	var ytdVoc=[];
+	var ytdCms=[];
 	var cmsscore=[];
 	var cmsTarget=[];
 	var cmsYtdTarget=[];
@@ -31,6 +39,14 @@ $(document).ready(function(){
 	var collModelDefect=[];
 	var collModelDefectTarget=[];
 	var collModelDefectYtdTarget=[];
+	var ocrscore=[];
+	var ocrTarget=[];
+	var skillportscore=[];
+	var skillportTarget=[];
+	var vocscore=[];
+	var vocTarget=[];
+	var icwscore=[];
+	var icwTarget=[];
 	var months=[];
 	var bgColor=[];
 	var bgYColor=[];
@@ -44,9 +60,12 @@ $(document).ready(function(){
 	var bgYColor4=[];
 	var bgColor5=[];
 	var bgColor6=[];
+	var bgColor7=[];
+	var bgColor8=[];
 	var bgYColor5=[];
 	var bgYColor6=[];
 	var bgYColor7=[];
+	var bgYColor8=[];
 	let chrt=null;
 	let chrt1=null;
 	let chrt2=null;
@@ -55,14 +74,16 @@ $(document).ready(function(){
 	let chrt5=null;
 	let chrt6=null;
 	let chrt7=null;
-	var ytdCredits=[];
+	let chrt8=null;
 	var ytdQA=[];
 	var ytdStella=[];
 	var ytdSA=[];
 	var ytdAht=[];
+	var ytdOcr=[];
 	var ytdCms=[];
-	var ytdCallMon=[];
-	var ytdCollectionModel=[];
+	var ytdSkillport=[];
+	var ytdVoc=[];
+	var ytdIcw=[];
 	var totalCredits;
 	var totalCreditTarget;
 	var totalQA;
@@ -78,6 +99,7 @@ $(document).ready(function(){
 	var ctx5;
 	var ctx6;
 	var ctx7;
+	var ctx8;
 	var targetCollection=[];
 	var ytdCollection=[];
 	var outOf=[];
@@ -153,23 +175,21 @@ $(document).ready(function(){
 				//var dataMarkers = { "Month": null,"FusionId":"197043"};
 			if(data.FusionId == '103009' || data.FusionId == '109944' || data.FusionId == '104086' || data.FusionId == '195760'){
 				var dataMarkers = { "Month": null,"FusionId":null};
-				urlStr = urlStr + "scorecard/getCRScoreCard/tl";
+				urlStr = urlStr + "scorecard/getRevAgentScoreCard/tl";
 			}
-			else if(data.Department == 'CCC-R' || data.Department == 'FLEX' || data.Department == 'CCC-R SPANISH')
+			else if(data.Department == 'Reverse CS')
 			{
 				if(data.Designation=='Agent'){
-					window.location = "http://awswauto01d:8080/ScorecardDashboard";
+					window.location = "http://awswauto01d:8080/ScorecardDashboard/ReverseCSAgent.jsp";
 				}
 				else if(data.Designation=='Team Lead'){
-					$('#amScorecard').hide();
+					//$('#amScorecard').hide();
 					var dataMarkers = { "Month": null,"FusionId":data.FusionId};
 				}
 				else
 					var dataMarkers = { "Month": null,"FusionId":null};
-				urlStr = urlStr + "scorecard/getCRScoreCard/tl";
-			}
-					
-			
+				urlStr = urlStr + "scorecard/getRevAgentScoreCard/tl";
+			}				
 				else
 					{ 
 					debugger;
@@ -183,13 +203,14 @@ $(document).ready(function(){
 					    contentType: "application/json",
 					    //dataType: "json",
 					    success: function(dta){
-					    	curUserId=dta[0]['EmpId'];
-					    	$('#heading').text("CR Scorecard for " + dta[0]['TLName']);
+					    	debugger;
+					    	curUserId=dta[0]['empId'];
+					    	$('#heading').text("Reverses CS Scorecard for " + dta[0]['name']);
 					    	updateTopTen(dta);
 					    	populateCRAgentPeers();
 					    	console.log(dta);
-					    	selectedUser=dta[0]['FusionId']
-					    	renderTeamData(new Date().getFullYear()+"-01-01",dta[0]['FusionId']);
+					    	selectedUser=dta[0]['empId']
+					    	renderTeamData(new Date().getFullYear()+"-01-01",dta[0]['empId']);
 					    	},
 					    error: function(errMsg) {
 					    	debugger;
@@ -216,7 +237,7 @@ $(document).ready(function(){
 		var dataMarkers = {"FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
+		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/tl/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -257,7 +278,7 @@ $(document).ready(function(){
 		debugger;
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getCRScoreCard/tl/agents",
+		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/tl/agents",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -274,31 +295,34 @@ $(document).ready(function(){
 			      //  row += "<td>" + dta[i]['Location'] + "</td>";
 			        row += "<td>" + dta[i]['Dept'] + "</td>";
 			        row += "<td>" + dta[i]['GlobalRank'] + " of " + dta[i]['OutOf']  +  "</td>";
-			        row += "<td>" + dta[i]['CreditPerHr'].toFixed(3) + "</td>";
+			        row += "<td>" + dta[i]['SA'].toFixed(3) + "</td>";
 			       // row += "<td>" + dta[i]['CreditRank'] + "</td>";
 			       // row += "<td>" + dta[i]['CreditScore'] + "</td>";
-			        row += "<td>" + dta[i]['CreditsTarget'].toFixed(3) + "</td>";
-			        row += "<td>" + dta[i]['QAScore'] + "</td>";
+			        row += "<td>" + dta[i]['SATarget'].toFixed(3) + "</td>";
+			        row += "<td>" + dta[i]['AHT'] + "</td>";
 			      //  row += "<td>" + dta[i]['QARank'] + "</td>";
 			      //  row += "<td>" + dta[i]['QA_Score'] + "</td>";
-			        row += "<td>" + dta[i]['QATarget'] + "</td>";
-			        row += "<td>" + dta[i]['Stellarating'] + "</td>";
+			        row += "<td>" + dta[i]['AHTTarget'] + "</td>";
+			        row += "<td>" + dta[i]['OCR'] + "</td>";
 			      //  row += "<td>" + dta[i]['StellaRank'] + "</td>";
 			        //row += "<td>" + dta[i]['StellaScore'] + "</td>";
-			        row += "<td>" + dta[i]['StellaTarget'] + "</td>";
-			        row += "<td>" + dta[i]['SA'] + "</td>";
+			        row += "<td>" + dta[i]['OCRTarget'] + "</td>";
+			        row += "<td>" + dta[i]['QA'] + "</td>";
 			       // row += "<td>" + dta[i]['SARank'] + "</td>";
 			        //row += "<td>" + dta[i]['SAScore'] + "</td>";
-			        row += "<td>" + dta[i]['SATarget'] + "</td>";
-			        row += "<td>" + dta[i]['AHT'] + "</td>";
+			        row += "<td>" + dta[i]['QATarget'] + "</td>";
+			        row += "<td>" + dta[i]['Stella'] + "</td>";
 			       // row += "<td>" + dta[i]['AHTRAnk'] + "</td>";
 			       // row += "<td>" + dta[i]['AHTScore'] + "</td>";
-			        row += "<td>" + dta[i]['AHTTarget'] + "</td>";
-			        row += "<td>" + dta[i]['CMSDefectPer'] + "</td>";
+			        row += "<td>" + dta[i]['StellaTarget'] + "</td>";
+			        row += "<td>" + dta[i]['Skillport'] + "</td>";
+			        row += "<td>" + dta[i]['SkillportTarget'] + "</td>";
+			        row += "<td>" + dta[i]['VOC'] + "</td>";
+			        row += "<td>" + dta[i]['VOCTarget'] + "</td>";
+			        row += "<td>" + dta[i]['CMS'] + "</td>";
 			        row += "<td>" + dta[i]['CMSTarget'] + "</td>";
-			       // row += "<td>" + dta[i]['CMSRank'] + "</td>";
-			        //row += "<td>" + dta[i]['CMSScore'] + "</td>";
-			        // row += "<td>" + dta[i]['OutOf'] + "</td>";
+			        row += "<td>" + dta[i]['ICW'] + "</td>";
+			        row += "<td>" + dta[i]['ICWTarget'] + "</td>";
 			        row += "</tr>";
 			        $('#teamData').append(row);
 				}
@@ -325,7 +349,6 @@ $(document).ready(function(){
 			}
 		}
 		return glblRnk;
-		
 	}
 	
 	function fetchYtdCredits(empId)
@@ -334,14 +357,97 @@ $(document).ready(function(){
 		for (var i = 0; i < ytdAllAgents.length; i++)
 		{ 
 			if(ytdAllAgents[i]['empId']==empId){
-				ytdCredits.push(ytdAllAgents[i]['ytdCredits']);
-				ytdQA.push(ytdAllAgents[i]['ytdCallMonDefect']);
-				ytdStella.push(ytdAllAgents[i]['ytdStella']);
-				ytdSA.push(ytdAllAgents[i]['ytdSA']);
-				ytdAht.push(ytdAllAgents[i]['ytdAHT']);
-				ytdCms.push(ytdAllAgents[i]['ytdCmsDefect']);
-				ytdCallMon.push(ytdAllAgents[i]['ytdCallMonDefect']);
-				ytdCollectionModel.push(ytdAllAgents[i]['ytdCollectionModelDefect']);
+				debugger;
+				ytdSA.push(ytdAllAgents[i]['sa']);
+		    	if(ytdSA<85) //Tier5
+		        	bgYColor.push('red');
+		        else if(ytdSA>=85 && ytdSA<87.5) //Tier4
+		        	bgYColor.push('#EF6C00');
+		        else if(ytdSA>=87.5 && ytdSA<90)  //Tier3
+		        	bgYColor.push('green');
+		        else 
+		        	bgYColor.push('#74c474');//Tier 2
+		    	
+				ytdAht.push(ytdAllAgents[i]['aht']);
+				if(ytdAht>610) //Tier5
+		        	bgYColor1.push('red');
+		        else if(ytdAht<=610 && ytdAht>595) //Tier4
+		        	bgYColor1.push('#EF6C00');
+		        else if(ytdAht<=595 && ytdAht>550)  //Tier3
+		        	bgYColor1.push('green');
+		        else 
+		        	bgYColor1.push('#74c474');//Tier 2
+				
+				ytdOcr.push(ytdAllAgents[i]['ocr']);
+				if(ytdOcr<80) //Tier5
+		        	bgYColor2.push('red');
+		        else if(ytdOcr>=80 && ytdOcr<85 ) //Tier4
+		        	bgYColor2.push('#EF6C00');
+		        else if(ytdOcr>=85 && ytdOcr<93 ) //Tier3
+		        	bgYColor2.push('green');
+		        else if(ytdOcr>=93 ) //Tier2
+		        	bgYColor2.push('#74c474');
+				
+				ytdQA.push(ytdAllAgents[i]['qScore']);
+				if(ytdQA<94) //Tier5
+		        	bgYColor3.push('red');
+		        else if(ytdQA>=94 && ytdQA<95 ) //Tier4
+		        	bgYColor3.push('#EF6C00');
+		        else if(ytdQA>=95 && ytdQA<97 ) //Tier3
+		        	bgYColor3.push('green');
+		        else
+		        	bgYColor3.push('#74c474');
+				
+				ytdStella.push(ytdAllAgents[i]['stella']);
+				if(ytdStella<4.25)  //Tier5
+		        	bgYColor4.push('red');
+		        else if((ytdStella>=4.25) && (ytdStella<4.30)) //Tier4
+		        	bgYColor4.push('#EF6C00');
+		        else if((ytdStella>=4.30) && (ytdStella<4.35)) //Tier3
+		        		bgYColor4.push('green');
+		        else
+		        	bgYColor4.push('#74c474'); //Tier2
+				
+				ytdSkillport.push(ytdAllAgents[i]['skillport']);
+				if(ytdSkillport >1.5) //Tier5
+		        	bgYColor5.push('red');
+		        else if(ytdSkillport <=1.5 && ytdSkillport >1.00) //Tier4
+		        	bgYColor5.push('#EF6C00');
+		        else if(ytdSkillport <=1.0 && ytdSkillport >0.5) //Tier3
+		        	bgYColor5.push('green');
+		        else
+		        	bgYColor5.push('#74c474');
+				
+				ytdVoc.push(ytdAllAgents[i]['voc']);
+				if(ytdVoc <87) //Tier5
+		        	bgYColor6.push('red');
+		        else if(ytdVoc >=87 && ytdVoc <90) //Tier4
+		        	bgYColor6.push('#EF6C00');
+		        else if(ytdVoc >=90 && ytdVoc <95) //Tier3
+		        	bgYColor6.push('green');
+		        else
+		        	bgYColor6.push('#74c474');
+				
+				ytdCms.push(ytdAllAgents[i]['cmsDefectPer']);
+				if(ytdCms <50) //Tier5
+		        	bgYColor7.push('red');
+		        else if(ytdCms >=50 && ytdCms <75) //Tier4
+		        	bgYColor7.push('#EF6C00');
+		        else if(ytdCms >=75 && ytdCms <100) //Tier3
+		        	bgYColor7.push('green');
+		        else
+		        	bgYColor7.push('#74c474');
+				
+				ytdIcw.push(ytdAllAgents[i]['icw']);
+				if(ytdIcw <94) //Tier5
+		        	bgYColor8.push('red');
+		        else if(ytdIcw >=94 && ytdIcw <95) //Tier4
+		        	bgYColor8.push('#EF6C00');
+		        else if(ytdIcw >=95 && ytdIcw <97) //Tier3
+		        	bgYColor8.push('green');
+		        else
+		        	bgYColor8.push('#74c474');
+				
 				break;
 			}
 		}
@@ -386,10 +492,10 @@ $(document).ready(function(){
 		    	var dt=new Date();
 		    	$("#cboPeers").val("1");
 				var period=dt.getFullYear() + "-01-01"
-		    	selectedUser=dta[0]['FusionId'];
-		    	renderTeamData(period,dta[0]['FusionId']);
-		    	$('#heading').text("CR Scorecard for " + dta[0]['TLName']);
-		    	var ti=fetchTier(dta[0]['EmpId']);
+		    	selectedUser=dta[0]['empId'];
+		    	renderTeamData(period,dta[0]['empId']);
+		    	$('#heading').text("CR Scorecard for " + dta[0]['name']);
+		    	var ti=fetchTier(dta[0]['empid']);
 		    	if(ti == 1)
 		        	$('#logo').attr("src","Gold.png");
 		    	else if(ti ==2)
@@ -475,9 +581,7 @@ $(document).ready(function(){
 		    		bgColor5.pop();
 				}
 		    	
-		    	while(ytdCredits.length > 0) {
-		    		ytdCredits.pop();
-				}
+		    	
 		    	
 		    	while(ytdCollection.length > 0) {
 		    		ytdCollection.pop();
@@ -571,8 +675,8 @@ $(document).ready(function(){
 					cmsYtdTarget.pop();
 				}
 				
-				while(callMonYtdTarget.length>0){
-					callMonYtdTarget.pop();
+				while(ytdVoc.length>0){
+					ytdVoc.pop();
 				}
 				while(targetCollection.length > 0) {
 					targetCollection.pop();
@@ -586,12 +690,12 @@ $(document).ready(function(){
 					outOf.pop();
 				}
 				
-				while(ytdCallMon.length>0){
-					ytdCallMon.pop();
+				while(ytdSkillport.length>0){
+					ytdSkillport.pop();
 				}
 				
-				while(ytdCollectionModel.length>0){
-					ytdCollectionModel.pop();
+				while(ytdIcw.length>0){
+					ytdIcw.pop();
 				}
 	        	
 		    	//populateCRAgentPeers();
@@ -621,6 +725,10 @@ $(document).ready(function(){
 		    	if(chrt7){
 		    		chrt7.destroy();
 		    	}
+		    	
+		    	if(chrt8){
+		    		chrt8.destroy();
+		    	}
 		    	renderCR(dta);
 		    	$('html,body').css('cursor','default');
 		    	},
@@ -637,7 +745,7 @@ $(document).ready(function(){
 		var dataMarkers = { "FusionId":null};
 		$.ajax({
 		    type: "POST",
-		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard//getCRScoreCard/tl/ytd",
+		    url: "http://awswauto01d:8080/ScorecardDashboard/api/scorecard/getRevAgentScoreCard/tl/ytd",
 		    // The key needs to match your method's input parameter (case-sensitive).
 		    data: JSON.stringify(dataMarkers),
 		    contentType: "application/json",
@@ -681,217 +789,212 @@ $(document).ready(function(){
 		$("#data1 tr").remove();
     	for (var i = 0, len = dta.length; i < len; i++) {
     		
-			var row = "<tr>";
-	        row += "<td>" + dta[i]['Month'] + "</td>";
-	        months.push(dta[i]['Month']);
+    		var row = "<tr>";
+	        row += "<td>" + dta[i]['month'] + "</td>";
+	        months.push(dta[i]['month']);
 	       // row += "<td>" + dta[i]['UcId'] + "</td>";
-	        row += "<td>" + dta[i]['FusionId'] + "</td>"
-	        row += "<td>" + dta[i]['TLName'] + "</td>";
-	        row += "<td>" + dta[i]['AsstMngr'] + "</td>";
+	        row += "<td>" + dta[i]['empId'] + "</td>"
+	        row += "<td>" + dta[i]['name'] + "</td>";
+	        row += "<td>" + dta[i]['tl'] + "</td>";
 	      //  row += "<td>" + dta[i]['Location'] + "</td>";
-	        row += "<td>" + dta[i]['Dept'] + "</td>";
-	        row += "<td>" + dta[i]['GlobalRank'] + " of " + dta[i]['OutOf']  +  "</td>";
-	        sumOfRanks = sumOfRanks + (dta[i]['GlobalRank'] / dta[i]['OutOf']);
-	        row += "<td>" + dta[i]['ResolutionCredits'].toFixed(3) + "</td>";
+	        row += "<td>" + dta[i]['dept'] + "</td>";
+	        row += "<td>" + dta[i]['globalRank'] + " of " + dta[i]['outOf']  +  "</td>";
+	        sumOfRanks = sumOfRanks + (dta[i]['globalRank'] / dta[i]['outOf']);
+	        row += "<td>" + dta[i]['sa'].toFixed(3) + "</td>";
 	       // row += "<td>" + dta[i]['CreditRank'] + "</td>";
 	       // row += "<td>" + dta[i]['CreditScore'] + "</td>";
-	        creditscore.push(dta[i]['ResolutionCredits'].toFixed(3));
-	        totalCredits=totalCredits+dta[i]['ResolutionCredits'];
+	        sascore.push(dta[i]['sa'].toFixed(3));
+	        //totalCredits=totalCredits+dta[i]['SA'];
 	        //totalCreditTarget=totalCreditTarget+dta[i]['CreditsTarget'];
-	        totalCreditTarget=dta[i]['CreditsPerHourTarget'];
+	        //totalCreditTarget=dta[i]['SATarget'];
 	        
-	        row += "<td>" + dta[i]['CreditsPerHourTarget'].toFixed(3) + "</td>";
-	        creditTarget.push(dta[i]['CreditsPerHourTarget'].toFixed(3));
-	        if(dta[i]['CreditsPerHourTarget']>dta[i]['ResolutionCredits'])
+	        row += "<td>" + dta[i]['saTarget'].toFixed(3) + "</td>";
+	        saTarget.push(dta[i]['saTarget'].toFixed(3));
+	        /*if(dta[i]['SATarget']>dta[i]['SA'])
 	        	bgColor.push('red');
 	        else
 	        	bgColor.push('green');
-	        if(dta[i]['CreditsPerHourTarget']>(totalCredits/(i+1)).toFixed(3))
+	        if(dta[i]['SATarget']>(totalCredits/(i+1)).toFixed(3))
 	        	bgYColor.push('red');
 	        else
-	        	bgYColor.push('#9FFF33');
-	       // row += "<td>" + dta[i]['QAScore'] + "</td>";
+	        	bgYColor.push('#9FFF33');*/
+	        
+	        if(dta[i]['sa']<85) //Tier5
+	        	bgColor.push('red');
+	        else if(dta[i]['sa']>=85 && dta[i]['sa']<87.5) //Tier4
+	        	bgColor.push('#EF6C00');
+	        else if(dta[i]['sa']>=87.5 && dta[i]['sa']<90)  //Tier3
+	        	bgColor.push('green');
+	        else 
+	        	bgColor.push('#74c474');//Tier 2
+	        
+	        row += "<td>" + dta[i]['aht'] + "</td>";
 	      //  row += "<td>" + dta[i]['QARank'] + "</td>";
 	      //  row += "<td>" + dta[i]['QA_Score'] + "</td>";
-	      /*  qualityscore.push(dta[i]['QAScore']);
-	        totalQA=totalQA+dta[i]['QAScore'];
+	        ahtscore.push(dta[i]['aht']);
+	        //totalQA=totalQA+dta[i]['AHT'];
 	       // row += "<td>" + (totalQA/(i+1)).toFixed(3) + "</td>"
-	        row += "<td>" + dta[i]['QATarget'] + "</td>";
-	        qualityTarget.push(dta[i]['QATarget']);
-	        if(dta[i]['QAScore']<90) //Tier5
+	        row += "<td>" + dta[i]['ahtTarget'] + "</td>";
+	        ahtTarget.push(dta[i]['ahtTarget']);
+	        if(dta[i]['aht']>610) //Tier5
 	        	bgColor1.push('red');
-	        else if(dta[i]['QAScore']>=90 && dta[i]['QAScore']<=95) //Tier4
+	        else if(dta[i]['aht']<=610 && dta[i]['aht']>595) //Tier4
 	        	bgColor1.push('#EF6C00');
-	        else if(dta[i]['QAScore']>95 && dta[i]['QAScore']<=97.5)  //Tier3
+	        else if(dta[i]['aht']<=595 && dta[i]['aht']>550)  //Tier3
 	        	bgColor1.push('green');
 	        else 
 	        	bgColor1.push('#74c474');//Tier 2
 	        
 	        						        
-	        if(dta[i]['QATarget']>(totalQA/(i+1)).toFixed(3))
+	        if(dta[i]['ahtTarget']>(totalQA/(i+1)).toFixed(3))
 	        	bgYColor1.push('red');
 	        else
-	        	bgYColor1.push('#9FFF33');*/
-	        row += "<td>" + dta[i]['Stellarating'] + "</td>";
+	        	bgYColor1.push('#9FFF33');
+	        row += "<td>" + dta[i]['ocr'] + "</td>";
 	      //  row += "<td>" + dta[i]['StellaRank'] + "</td>";
 	        //row += "<td>" + dta[i]['StellaScore'] + "</td>";
-	        stellascore.push(dta[i]['Stellarating']);
-	        totalStella=totalStella+dta[i]['Stellarating'];
+	        ocrscore.push(dta[i]['ocr']);
+	        //totalStella=totalStella+dta[i]['OCR'];
 	        //row += "<td>" + (totalStella/(i+1)).toFixed(3) + "</td>"
-	        row += "<td>" + dta[i]['StellaTarget'] + "</td>";
-	        stellaTarget.push(dta[i]['StellaTarget']);
-	        if(dta[i]['Stellarating']<4.30) //Tier5
+	        row += "<td>" + dta[i]['ocrTarget'] + "</td>";
+	        ocrTarget.push(dta[i]['ocrTarget']);
+	        if(dta[i]['ocr']<80) //Tier5
 	        	bgColor2.push('red');
-	        else if(dta[i]['Stellarating']>=4.30 && dta[i]['Stellarating']<4.40 ) //Tier4
+	        else if(dta[i]['ocr']>=80 && dta[i]['ocr']<85 ) //Tier4
 	        	bgColor2.push('#EF6C00');
-	        else if(dta[i]['Stellarating']>=4.40 && dta[i]['Stellarating']<4.50 ) //Tier3
+	        else if(dta[i]['ocr']>=85 && dta[i]['ocr']<93 ) //Tier3
 	        	bgColor2.push('green');
-	        else if(dta[i]['Stellarating']>=4.50 ) //Tier2
+	        else if(dta[i]['ocr']>=93 ) //Tier2
 	        	bgColor2.push('#74c474');
-	        	
-	        
-	        /*if(dta[i]['StellaTarget']>(totalStella/(i+1)).toFixed(3))
-	        	bgYColor2.push('red');
-	        else
-	        	bgYColor2.push('#9FFF33');*/
-	        row += "<td>" + dta[i]['SA'] + "</td>";
-	       // row += "<td>" + dta[i]['SARank'] + "</td>";
-	        //row += "<td>" + dta[i]['SAScore'] + "</td>";
-	        sascore.push(dta[i]['SA']);
-	        totalSA=totalSA+dta[i]['SA'];
-	        
-	        //row += "<td>" + (totalSA/(i+1)).toFixed(3) + "</td>"
-	        row += "<td>" + dta[i]['SATarget'] + "</td>";
-	        saTarget.push(dta[i]['SATarget']);
-	        if(dta[i]['SA']<87.5) //Tier5
+	        row += "<td>" + dta[i]['qScore'] + "</td>";
+	        qualityscore.push(dta[i]['qScore']);
+	        row += "<td>" + dta[i]['qaTarget'] + "</td>";
+	        qualityTarget.push(dta[i]['qaTarget']);
+	        if(dta[i]['qScore']<94) //Tier5
 	        	bgColor3.push('red');
-	        else if(dta[i]['SA']>=87.5 && dta[i]['SA']<90 ) //Tier4
+	        else if(dta[i]['qScore']>=94 && dta[i]['qScore']<95 ) //Tier4
 	        	bgColor3.push('#EF6C00');
-	        else if(dta[i]['SA']>=90 && dta[i]['SA']<92.5 ) //Tier3
+	        else if(dta[i]['qScore']>=95 && dta[i]['qScore']<97 ) //Tier3
 	        	bgColor3.push('green');
 	        else
 	        	bgColor3.push('#74c474');
 	        
-	        row += "<td>" + dta[i]['AHT'] + "</td>";
-	       // row += "<td>" + dta[i]['AHTRAnk'] + "</td>";
-	       // row += "<td>" + dta[i]['AHTScore'] + "</td>";
-	        ahtscore.push(dta[i]['AHT']);
-	        totalAht=totalAht+dta[i]['AHT'];
-	        row += "<td>" + dta[i]['AHTTarget'] + "</td>";
-	        ahtTarget.push(dta[i]['AHTTarget']);
-	        if(dta[i]['AHT']>660)  //Tier5
+	        row += "<td>" + dta[i]['stella'] + "</td>";
+	        stellascore.push(dta[i]['stella']);
+	        row += "<td>" + dta[i]['stellaTarget'] + "</td>";
+	        stellaTarget.push(dta[i]['stellaTarget']);
+	        if(dta[i]['stella']<4.25)  //Tier5
 	        	bgColor4.push('red');
-	        else if((dta[i]['AHT']<=660) && (dta[i]['AHT']>630)) //Tier4
+	        else if((dta[i]['stella']>=4.25) && (dta[i]['stella']<4.30)) //Tier4
 	        	bgColor4.push('#EF6C00');
-	        else if((dta[i]['AHT']<=630) && (dta[i]['AHT']>600)) //Tier3
+	        else if((dta[i]['stella']>=4.30) && (dta[i]['stella']<4.35)) //Tier3
 	        		bgColor4.push('green');
 	        else
 	        	bgColor4.push('#74c474'); //Tier2
 				
 				
-	        row += "<td>" + dta[i]['CMSDefectPer'] + "</td>";
-	       // row += "<td>" + dta[i]['CMSRank'] + "</td>";
-	        //row += "<td>" + dta[i]['CMSScore'] + "</td>";
-	        cmsscore.push(dta[i]['CMSDefectPer']);
-	        totalCms=totalCms+dta[i]['CMSDefectPer'];
-	        row += "<td>" + dta[i]['CMSTarget'] + "</td>";
-	        cmsTarget.push(dta[i]['CMSTarget']);
-	        if(dta[i]['CMSDefectPer'] >1.5) //Tier5
+	        row += "<td>" + dta[i]['skillport'] + "</td>";
+	        skillportscore.push(dta[i]['skillport']);
+	        row += "<td>" + dta[i]['skillportTarget'] + "</td>";
+	        skillportTarget.push(dta[i]['skillportTarget']);
+	        if(dta[i]['skillport'] <75) //Tier5
 	        	bgColor5.push('red');
-	        else if(dta[i]['CMSDefectPer'] <=1.5 && dta[i]['CMSDefectPer'] >1.00) //Tier4
+	        else if(dta[i]['skillport'] >=75 && dta[i]['skillport'] <99.99) //Tier4
 	        	bgColor5.push('#EF6C00');
-	        else if(dta[i]['CMSDefectPer'] <=1.0 && dta[i]['CMSDefectPer'] >0.5) //Tier3
-	        	bgColor5.push('green');
 	        else
 	        	bgColor5.push('#74c474');
 	        
-	      //Call monitoring row & graph
-	        
-	        row += "<td>" + dta[i]['CallMonitoringDefect'] + "</td>";
-		    row += "<td>" + dta[i]['CallMonitoringTarget'] + "</td>";
-		        
-		        if(dta[i]['CallMonitoringDefect'] >10) //Tier5
-		        	bgColor1.push('red');
-		        else if(dta[i]['CallMonitoringDefect'] <=10 && dta[i]['CallMonitoringDefect'] >7.5) //Tier4
-		        	bgColor1.push('#EF6C00');
-		        else if(dta[i]['CallMonitoringDefect'] <=7.5 && dta[i]['CallMonitoringDefect'] >5) //Tier3
-		        	bgColor1.push('green');
-		        else
-		        	bgColor1.push('#74c474');
-		        
-		        qualityTarget.push(dta[i]['CallMonitoringTarget']);
-		        qualityscore.push(dta[i]['CallMonitoringDefect']);
-		        totalQA=totalQA+dta[i]['CallMonitoringDefect'];
-		       		        		        
-		        row += "<td>" + dta[i]['CollectionModelDefect'] + "</td>";
-			    row += "<td>" + dta[i]['CollectionModelTarget'] + "</td>";
-			    
-			    collModelDefectTarget.push(dta[i]['CollectionModelTarget']);
-		        if(dta[i]['CollectionModelDefect']<3.5) //Tier5
+	        row += "<td>" + dta[i]['voc'] + "</td>";
+		        vocscore.push(dta[i]['voc']);
+		        row += "<td>" + dta[i]['vocTarget'] + "</td>";
+		        vocTarget.push(dta[i]['vocTarget']);
+		        if(dta[i]['voc'] <87) //Tier5
 		        	bgColor6.push('red');
-		        else if(dta[i]['CallMonitoringDefect']>=3.5 && dta[i]['CallMonitoringDefect']<=2.5) //Tier4
+		        else if(dta[i]['voc'] >=87 && dta[i]['voc'] <90) //Tier4
 		        	bgColor6.push('#EF6C00');
-		        else if(dta[i]['CallMonitoringDefect']>2.5 && dta[i]['CallMonitoringDefect']<=1.5)  //Tier3
+		        else if(dta[i]['voc'] >=90 && dta[i]['voc'] <95) //Tier3
 		        	bgColor6.push('green');
-		        else 
-		        	bgColor6.push('#74c474');//Tier 2
-		        collModelDefect.push(dta[i]['CollectionModelDefect']);
+		        else
+		        	bgColor6.push('#74c474');
+		        
+		        row += "<td>" + dta[i]['cmsDefectPer'] + "</td>";
+			        cmsscore.push(dta[i]['cmsDefectPer']);
+			        row += "<td>" + dta[i]['cmsTarget'] + "</td>";
+			        cmsTarget.push(dta[i]['cmsTarget']);
+			        if(dta[i]['cmsDefectPer'] <50) //Tier5
+			        	bgColor7.push('red');
+			        else if(dta[i]['cmsDefectPer'] >=50 && dta[i]['cmsDefectPer'] <75) //Tier4
+			        	bgColor7.push('#EF6C00');
+			        else if(dta[i]['cmsDefectPer'] >=75 && dta[i]['cmsDefectPer'] <100) //Tier3
+			        	bgColor7.push('green');
+			        else
+			        	bgColor7.push('#74c474');
+			        
+			        row += "<td>" + dta[i]['icw'] + "</td>";
+				        icwscore.push(dta[i]['icw']);
+				        row += "<td>" + dta[i]['icwTarget'] + "</td>";
+				        icwTarget.push(dta[i]['icwTarget']);
+				        if(dta[i]['icw'] <94) //Tier5
+				        	bgColor8.push('red');
+				        else if(dta[i]['icw'] >=94 && dta[i]['icw'] <95) //Tier4
+				        	bgColor8.push('#EF6C00');
+				        else if(dta[i]['icw'] >=95 && dta[i]['icw'] <97) //Tier3
+				        	bgColor8.push('green');
+				        else
+				        	bgColor8.push('#74c474');
+		        
 	       // row += "<td>" + dta[i]['OutOf'] + "</td>";
 	        row += "</tr>";
 	        
 	        if(i==len-1){
 	        	debugger;
-	        	fetchYtdCredits(dta[i]['FusionId']);
+	        	fetchYtdCredits(dta[i]['empId']);
 	        	var row1 = "<tr>";
-	        	//ytdCredits.push(fetchYtdCredits(dta[i]['FusionId']));
 	        	ytdCollection.push((totalCredits/(i+1)).toFixed(3));
-	        	//creditYtdTarget.push((totalCreditTarget/(i+1)).toFixed(3));
-	        	creditYtdTarget.push(totalCreditTarget.toFixed(3));
 	        	targetCollection.push((totalCreditTarget/(i+1)).toFixed(3));
-	        	//row1 += "<td>" + dta[i]['Month'] + "</td>";
-	        	row1 += "<td>" + dta[i]['FusionId'] + "</td>"
-	        	row1 += "<td>" + dta[i]['TLName'] + "</td>";
-	        	row1 += "<td>" + dta[i]['AsstMngr'] + "</td>";
-	        	row1 += "<td>" + dta[i]['Dept'] + "</td>";
-	        	decimalToFraction(sumOfRanks/(i+1));
-	        	//row1 += "<td>" +  dta[i]['YTDGlobalRank'] + "</td>";
-	        	row1 += "<td>" +  fetchYtdGlobalrank(dta[i]['FusionId']) + "</td>";
+	        	row1 += "<td>" + dta[i]['empId'] + "</td>"
+	        	row1 += "<td>" + dta[i]['name'] + "</td>";
+	        	row1 += "<td>" + dta[i]['tl'] + "</td>";
+	        	row1 += "<td>" + dta[i]['dept'] + "</td>";
+	        	row1 += "<td>" +  fetchYtdGlobalrank(dta[i]['empId']) + "</td>";
 	        	//$('#headingGR').text("Global Rank " + dta[i]['YTDGlobalRank'])
-	        	$('#headingGR').text("Global Rank " + fetchYtdGlobalrank(dta[i]['FusionId']));
-		        row1 += "<td>" + ytdCredits[0] + "</td>";
-		        //ytdQA.push((totalQA/(i+1)).toFixed(3));
+	        	$('#headingGR').text("Global Rank " + fetchYtdGlobalrank(dta[i]['empId']));
 		        ytdCollection.push((totalQA/(i+1)).toFixed(3));
-		        //row1 += "<td>" + ytdQA[0] + "</td>";
-	        	qualityYtdTarget.push(dta[i]['CallMonitoringTarget'].toFixed(3))
-	        	// targetCollection.push(dta[i]['QATarget'].toFixed(3));
-	        	ytdStella.push((totalStella/(i+1)).toFixed(3));
-	        	ytdCollection.push((totalStella/(i+1)).toFixed(3));
-	        	row1 += "<td>" + ytdStella[0] + "</td>";
-	        	stellaYtdTarget.push(dta[i]['StellaTarget'].toFixed(3));
-	        	targetCollection.push(dta[i]['StellaTarget'].toFixed(3));
+		        row1 += "<td>" + ytdSA[0] + "</td>";
+		        saYtdTarget.push(dta[i]['saTarget'].toFixed(3))
+	        	targetCollection.push(dta[i]['saTarget'].toFixed(3));
+	        	//ytdStella.push((totalStella/(i+1)).toFixed(3));
+	        	ytdCollection.push((ytdAht/(i+1)).toFixed(3));
+	        	row1 += "<td>" + ytdAht[0] + "</td>";
+	        	ahtYtdTarget.push(dta[i]['ahtTarget'].toFixed(3));
+	        	targetCollection.push(dta[i]['ahtTarget'].toFixed(3));
 	        	//ytdSA.push((totalSA/(i+1)).toFixed(3));
 	        	ytdCollection.push((totalSA/(i+1)).toFixed(3));
-	        	row1 += "<td>" + ytdSA[0] + "</td>";
-	        	saYtdTarget.push(dta[i]['SATarget']);
-	        	targetCollection.push(dta[i]['SATarget'])
+	        	row1 += "<td>" + ytdOcr[0] + "</td>";
+	        	ocrYtdTarget.push(dta[i]['ocrTarget']);
+	        	targetCollection.push(dta[i]['ocrTarget'])
 	        	//ytdAht.push((totalAht/(i+1)).toFixed(3));
 	        	ytdCollection.push((totalAht/(i+1)).toFixed(3));
-	        	row1 += "<td>" + ytdAht[0] + "</td>";
-	        	ahtYtdTarget.push(dta[i]['AHTTarget']);
-	        	targetCollection.push(dta[i]['AHTTarget']);
+	        	row1 += "<td>" + ytdQA[0] + "</td>";
+	        	qualityYtdTarget.push(dta[i]['q_target']);
+	        	targetCollection.push(dta[i]['q_target']);
 	        	//ytdCms.push((totalCms/(i+1)).toFixed(3));
 	        	ytdCollection.push((totalCms/(i+1)).toFixed(3));
+	        	row1 += "<td>" + ytdStella[0] + "</td>";
+	        	stellaYtdTarget.push(dta[i]['stellaTarget']);
+	        	targetCollection.push(dta[i]['stellaTarget']);
+	        	row1 += "<td>" + ytdSkillport[0] + "</td>";
+	        	skillportYtdTarget.push(dta[i]['skillportTarget']);
+	        	targetCollection.push(dta[i]['skillportTarget']);
+	        	row1 += "<td>" + ytdVoc[0] + "</td>";
+	        	vocYtdTarget.push(dta[i]['vocTarget']);
 	        	row1 += "<td>" + ytdCms[0] + "</td>";
-	        	cmsYtdTarget.push(dta[i]['CMSTarget']);
-	        	targetCollection.push(dta[i]['CMSTarget']);
-	        	row1 += "<td>" + ytdCallMon[0] + "</td>";
-	        	callMonYtdTarget.push(dta[i]['CMSTarget']);
-	        	targetCollection.push(dta[i]['CMSTarget']);
-	        	row1 += "<td>" + ytdCollectionModel[0] + "</td>";
-	        	collModelDefectYtdTarget.push(dta[i]['CollectionModelTarget']);
+	        	cmsYtdTarget.push(dta[i]['cmsTarget']);
+	        	row1 += "<td>" + ytdIcw[0] + "</td>";
+	        	icwYtdTarget.push(dta[0]['icwTarget']);
 	        	row1 += "</tr>";
-	        	globalRank.push(dta[i]['GlobalRank']);
-	        	outOf.push(dta[i]['OutOf']);
+	        	globalRank.push(dta[i]['globalRank']);
+	        	outOf.push(dta[i]['outOf']);
 	        }
 	        
 	        $('#data').append(row);
@@ -899,7 +1002,7 @@ $(document).ready(function(){
 	        $('html,body').css('cursor','default');
     	  }
     	
-    	 ctx=$('#myChart')[0].getContext("2d");
+    	ctx=$('#myChart')[0].getContext("2d");
     	Chart.defaults.set("plugins.datalabels", {
     	      color: "#000",
     	    });
@@ -911,20 +1014,16 @@ $(document).ready(function(){
     	      labels: months,
     	      datasets: [{ 
                     label: 'Target', 
-                    data: creditTarget, 
-                    //type: 'line', 
+                    data: saTarget, 
+                   // type: 'line', 
                     backgroundColor: '#2E86C1',
                     //barPercentage: 0.2,
                    // categoryPercentage: 1.0
-                    font: {
-		                color: 'black',
-		                weight:'bold'
-		              }
                 },
                 {
-	    	        label: 'Credits',
+	    	        label: 'Adherence',
 	    	        type: 'bar',
-	    	        data: creditscore,
+	    	        data: sascore,
 	    	        borderWidth: 0,
 	    	        borderColor: 'black',
 	    	        backgroundColor: bgColor,
@@ -949,19 +1048,19 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-	                    data: qualityTarget, 
-	                    //type: 'line', 
+	                    data: ahtTarget, 
+	                   // type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'
 			              }
 	                },
     	    	  {
-    	        label: 'Call Monitoring Defect',
-    	        type: 'bar',
-    	        data: qualityscore,
+    	        label: 'AHT',
+    	        data: ahtscore,
     	        borderWidth: 0,
     	        borderColor: "black",
     	        backgroundColor: bgColor1,
@@ -980,19 +1079,19 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-	                    data: stellaTarget, 
+	                    data: ocrTarget, 
 	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'
 			              }
 	                },
     	    	  {
-    	        label: 'Stella Star',
-    	        type: 'bar',
-    	        data: stellascore,
+    	        label: 'OCR',
+    	        data: ocrscore,
     	        borderWidth: 0,
     	        borderColor: "black",
     	        backgroundColor: bgColor2,
@@ -1004,10 +1103,6 @@ $(document).ready(function(){
     	  });
     	
     	 ctx3=$('#myChart3')[0].getContext("2d");
-    	/*Chart.defaults.set("plugins.datalabels", {
-    	      color: "#FE777B",
-    	    });
-    	Chart.register(ChartDataLabels);*/
     	chrt3=new Chart(ctx3, {
     	    type: 'bar',
     	    plugins: [ChartDataLabels],
@@ -1016,19 +1111,19 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-	                    data: saTarget, 
+	                    data: qualityTarget, 
 	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'
 			              }
 	                },
     	    	  {
-    	        label: 'Schedule Adherence',
-    	        type: 'bar',
-    	        data: sascore,
+    	        label: 'Quality',
+    	        data: qualityscore,
     	        borderWidth: 0,
     	        borderColor: "black",
     	        backgroundColor: bgColor3,
@@ -1052,19 +1147,19 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-	                    data: ahtTarget, 
+	                    data: stellaTarget, 
 	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'
 			              }
 	                },
     	    	  {
-    	        label: 'AHT',
-    	        type: 'bar',
-    	        data: ahtscore,
+    	        label: 'Stella Star',
+    	        data: stellascore,
     	        borderWidth: 0,
     	        borderColor: "black",
     	        backgroundColor: bgColor4,
@@ -1076,10 +1171,6 @@ $(document).ready(function(){
     	  });
     	
     	 ctx5=$('#myChart5')[0].getContext("2d");
-    	/*Chart.defaults.set("plugins.datalabels", {
-    	      color: "#FE777B",
-    	    });
-    	Chart.register(ChartDataLabels);*/
     	chrt5=new Chart(ctx5, {
     	    type: 'bar',
     	    plugins: [ChartDataLabels],
@@ -1088,19 +1179,19 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-    	    		  type: 'bar',
-	                    data: cmsTarget, 
-	                 //   type: 'line', 
+	                    data: skillportTarget, 
+	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'	
 			              }
 	                },
     	    	  {
-    	        label: 'CMS Defect%',
-    	        data: cmsscore,
+    	        label: 'Skillport Completion%',
+    	        data: skillportscore,
     	        borderWidth: 0,
     	        borderColor: "black",
     	        backgroundColor: bgColor5,
@@ -1110,9 +1201,40 @@ $(document).ready(function(){
     	    },
     	    options: options
     	  });
-    	console.log("Scores = " + creditscore);
     	
-    	ctx7=$('#myChart6')[0].getContext("2d");
+    	ctx6=$('#myChart6')[0].getContext("2d");
+    	chrt6=new Chart(ctx6, {
+    	    type: 'bar',
+    	    plugins: [ChartDataLabels],
+    	    data: {
+    	      labels: months,
+    	      datasets: [
+    	    	  { 
+    	    		  label: 'Target', 
+	                    data: vocTarget, 
+	                    //type: 'line', 
+	                    backgroundColor: '#2E86C1',
+	                    //barPercentage: 0.2,
+	                   // categoryPercentage: 1.0
+	                    font: {
+			                color: 'black',
+			                weight:'bold'	
+			              }
+	                },
+    	    	  {
+    	        label: 'VOC',
+    	        data: vocscore,
+    	        borderWidth: 0,
+    	        borderColor: "black",
+    	        backgroundColor: bgColor6,
+    	       // barPercentage: 0.2
+    	      }
+                ]
+    	    },
+    	    options: options
+    	  });
+    	
+    	ctx7=$('#myChart7')[0].getContext("2d");
     	chrt7=new Chart(ctx7, {
     	    type: 'bar',
     	    plugins: [ChartDataLabels],
@@ -1121,58 +1243,54 @@ $(document).ready(function(){
     	      datasets: [
     	    	  { 
     	    		  label: 'Target', 
-	                    data: collModelDefectTarget, 
-	              //      type: 'line', 
+	                    data: cmsTarget, 
+	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'black'
+			                color: 'black',
+			                weight:'bold'	
 			              }
 	                },
     	    	  {
-    	        label: 'Collection Call Model Defect',
-    	        type: 'bar',
-    	        data: collModelDefect,
+    	        label: 'CMS',
+    	        data: cmsscore,
     	        borderWidth: 0,
     	        borderColor: "black",
-    	        backgroundColor: bgColor5,
+    	        backgroundColor: bgColor7,
     	       // barPercentage: 0.2
     	      }
                 ]
     	    },
     	    options: options
     	  });
-    	console.log("Scores = " + creditscore);
     	
-    	ctx6=$('#myYtdChart')[0].getContext("2d");
-    	/*Chart.defaults.set("plugins.datalabels", {
-    	      color: "#FE777B",
-    	    });
-    	Chart.register(ChartDataLabels);*/
-    	chrt6=new Chart(ctx6, {
+    	ctx8=$('#myChart8')[0].getContext("2d");
+    	chrt8=new Chart(ctx8, {
     	    type: 'bar',
     	    plugins: [ChartDataLabels],
     	    data: {
-    	      labels: ['Global Rank'],
+    	      labels: months,
     	      datasets: [
     	    	  { 
-    	    		  label: 'Out of', 
-	                    data: outOf, 
-	                    type: 'bar', 
+    	    		  label: 'Target', 
+	                    data: icwTarget, 
+	                    //type: 'line', 
 	                    backgroundColor: '#2E86C1',
 	                    //barPercentage: 0.2,
 	                   // categoryPercentage: 1.0
 	                    font: {
-			                color: 'red'
+			                color: 'black',
+			                weight:'bold'	
 			              }
 	                },
-	                {
-    	        label: 'Global Rank',
-    	        data: globalRank,
+    	    	  {
+    	        label: 'ICW',
+    	        data: icwscore,
     	        borderWidth: 0,
     	        borderColor: "black",
-    	        backgroundColor: bgColor5,
+    	        backgroundColor: bgColor8,
     	       // barPercentage: 0.2
     	      }
                 ]
@@ -1211,83 +1329,149 @@ $(document).ready(function(){
   
 	$("#cboBifor").change(function(){
 		var status = this.value;
-	    if(status=='Monthly'){
+		if(status=='Monthly'){
+	    	debugger;
 	    	//$('#divYtdcharts').hide();
-	    	chrt.data.datasets[1].data=creditscore;
-	    	chrt.data.datasets[0].data = creditTarget;
+	    	chrt.data.datasets[1].data=sascore;
+	    	chrt.data.datasets[0].data = saTarget;
 	    	//chrt.data.datasets[0].type = 'line';
 	    	chrt.data.labels=months;
-	    	chrt1.data.datasets[1].data=qualityscore;
-	    	chrt1.data.datasets[0].data=qualityTarget;
+	    	chrt.data.datasets[1].backgroundColor=bgColor;
+	    	
+	    	chrt1.data.datasets[1].data=ahtscore;
+	    	chrt1.data.datasets[0].data=ahtTarget;
 	    	//chrt1.data.datasets[0].type = 'line';
 	    	chrt1.data.labels=months;
-	    	chrt2.data.datasets[1].data=stellascore;
-	    	chrt2.data.datasets[0].data=stellaTarget;
+	    	chrt1.data.datasets[1].backgroundColor=bgColor1;
+	    	
+	    	chrt2.data.datasets[1].data=ocrscore;
+	    	chrt2.data.datasets[0].data=ocrTarget;
 	    	//chrt2.data.datasets[0].type = 'line';
 	    	chrt2.data.labels=months;
-	    	chrt3.data.datasets[1].data=sascore;
-	    	chrt3.data.datasets[0].data=saTarget
+	    	chrt2.data.datasets[1].backgroundColor=bgColor2;
+	    	
+	    	chrt3.data.datasets[1].data=qualityscore;
+	    	chrt3.data.datasets[0].data=qualityTarget
 	    	//chrt3.data.datasets[0].type = 'line';
 	    	chrt3.data.labels=months;
-	    	chrt4.data.datasets[1].data=ahtscore;
-	    	chrt4.data.datasets[0].data=ahtTarget
+	    	chrt3.data.datasets[1].backgroundColor=bgColor3;
+	    	
+	    	chrt4.data.datasets[1].data=stellascore;
+	    	chrt4.data.datasets[0].data=stellaTarget
 	    	//chrt4.data.datasets[0].type = 'line';
 	    	chrt4.data.labels=months;
-	    	chrt5.data.datasets[1].data=cmsscore;
-	    	chrt5.data.datasets[0].data=cmsTarget;
+	    	chrt4.data.datasets[1].backgroundColor=bgColor4;
+	    	
+	    	chrt5.data.datasets[1].data=skillportscore;
+	    	chrt5.data.datasets[0].data=skillportTarget;
 	    	//chrt5.data.datasets[0].type = 'line';
 	    	chrt5.data.labels=months;
-	    	chrt7.data.datasets[1].data=collModelDefect;
-	    	chrt7.data.datasets[0].data=collModelDefectTarget;
-	    	//chrt7.data.datasets[0].type = 'line';
+	    	chrt5.data.datasets[1].backgroundColor=bgColor5;
+	    	
+	    	chrt6.data.datasets[1].data=vocscore;
+	    	chrt6.data.datasets[0].data=vocTarget;
+	    	//chrt6.data.datasets[0].type = 'bar';
+	    	chrt6.data.labels=months;
+	    	chrt6.data.datasets[1].backgroundColor=bgColor6;
+	    	
+	    	chrt7.data.datasets[1].data=cmsscore;
+	    	chrt7.data.datasets[0].data=cmsTarget;
+	    	//chrt7.data.datasets[0].type = 'bar';
 	    	chrt7.data.labels=months;
+	    	chrt7.data.datasets[1].backgroundColor=bgColor7;
+	    	
+	    	chrt8.data.datasets[1].data=icwscore;
+	    	chrt8.data.datasets[0].data=icwTarget;
+	    	//chrt8.data.datasets[0].type = 'bar';
+	    	chrt8.data.labels=months;
+	    	chrt8.data.datasets[1].backgroundColor=bgColor8;
 	    	chrt.update();
 	    	chrt1.update();
 	    	chrt2.update();
 	    	chrt3.update();
 	    	chrt4.update();
 	    	chrt5.update();
+	    	chrt6.update();
 	    	chrt7.update();
+	    	chrt8.update();
 	    	$('#divcharts').show();
 	    }
 	    else if(status=='YTD')
 	    	{
 	    		//$('#divYtdcharts').hide();
-		    	chrt.data.datasets[1].data=ytdCredits;
-		    	chrt.data.datasets[0].data = creditYtdTarget;
-		    	chrt.data.datasets[0].type = 'bar';
-		    	chrt.data.labels=['YTD'];
-		    	chrt1.data.datasets[1].data=ytdQA;
-		    	chrt1.data.datasets[0].data = qualityYtdTarget;
-		    	chrt1.data.datasets[0].type = 'bar';
-		    	chrt1.data.labels=['YTD'];
-		    	chrt2.data.datasets[1].data=ytdStella;
-		    	chrt2.data.datasets[0].data=stellaYtdTarget;
-		    	chrt2.data.datasets[0].type = 'bar';
-		    	chrt2.data.labels=['YTD'];
-		    	chrt3.data.datasets[1].data=ytdSA;
-		    	chrt3.data.datasets[0].data=saYtdTarget;
-		    	chrt3.data.datasets[0].type = 'bar';
-		    	chrt3.data.labels=['YTD'];
-		    	chrt4.data.datasets[1].data=ytdAht;
-		    	chrt4.data.datasets[0].data=ahtYtdTarget;
-		    	chrt4.data.datasets[0].type = 'bar';
-		    	chrt4.data.labels=['YTD'];
-		    	chrt5.data.datasets[1].data=ytdCms;
-		    	chrt5.data.datasets[0].data=cmsYtdTarget;
-		    	chrt5.data.datasets[0].type = 'bar';
-		    	chrt5.data.labels=['YTD'];
-		    	chrt7.data.datasets[1].data=ytdCollectionModel;
-		    	chrt7.data.datasets[0].data=collModelDefectYtdTarget;
-		    	chrt7.data.labels=['YTD'];
-		    	chrt.update();
-		    	chrt1.update();
-		    	chrt2.update();
-		    	chrt3.update();
-		    	chrt4.update();
-		    	chrt5.update();
-		    	chrt7.update();
-		    	$('#divcharts').show();
+	    	debugger;
+	    	chrt.data.datasets[1].data=ytdSA;
+	    	chrt.data.datasets[0].data = saYtdTarget;
+	    	chrt.data.datasets[0].type = 'bar';
+	    	chrt.data.labels=['YTD'];
+	    	chrt.data.datasets[1].backgroundColor=bgYColor;
+	    	
+	    	chrt1.data.datasets[1].data=ytdAht;
+	    	chrt1.data.datasets[0].data = ahtYtdTarget;
+	    	chrt1.data.datasets[0].type = 'bar';
+	    	chrt1.data.labels=['YTD'];
+	    	chrt1.data.datasets[1].backgroundColor=bgYColor1;
+	    	
+	    	chrt2.data.datasets[1].data=ytdOcr;
+	    	chrt2.data.datasets[0].data=ocrYtdTarget;
+	    	chrt2.data.datasets[0].type = 'bar';
+	    	chrt2.data.labels=['YTD'];
+	    	chrt2.data.datasets[1].backgroundColor=bgYColor2;
+	    	
+	    	chrt3.data.datasets[1].data=ytdQA;
+	    	chrt3.data.datasets[0].data=qualityYtdTarget;
+	    	chrt3.data.datasets[0].type = 'bar';
+	    	chrt3.data.labels=['YTD'];
+	    	chrt3.data.datasets[1].backgroundColor=bgYColor3;
+	    	
+	    	chrt4.data.datasets[1].data=ytdStella;
+	    	chrt4.data.datasets[0].data=stellaYtdTarget;
+	    	chrt4.data.datasets[0].type = 'bar';
+	    	chrt4.data.labels=['YTD'];
+	    	chrt4.data.datasets[1].backgroundColor=bgYColor4;
+	    	
+	    	chrt5.data.datasets[1].data=ytdSkillport;
+	    	chrt5.data.datasets[0].data=skillportYtdTarget;
+	    	chrt5.data.datasets[0].type = 'bar';
+	    	chrt5.data.labels=['YTD'];
+	    	chrt5.data.datasets[1].backgroundColor=bgYColor5;
+	    	
+	    	chrt6.data.datasets[1].data=ytdVoc;
+	    	chrt6.data.datasets[0].data=vocYtdTarget;
+	    	chrt6.data.datasets[0].type = 'bar';
+	    	chrt6.data.labels=['YTD'];
+	    	chrt6.data.datasets[1].backgroundColor=bgYColor6;
+	    	
+	    	chrt7.data.datasets[1].data=ytdCms;
+	    	chrt7.data.datasets[0].data=cmsYtdTarget;
+	    	chrt7.data.datasets[0].type = 'bar';
+	    	chrt7.data.labels=['YTD'];
+	    	chrt7.data.datasets[1].backgroundColor=bgYColor7;
+	    	
+	    	chrt8.data.datasets[1].data=ytdIcw;
+	    	chrt8.data.datasets[0].data=icwYtdTarget;
+	    	chrt8.data.datasets[0].type = 'bar';
+	    	chrt8.data.labels=['YTD'];
+	    	chrt8.data.datasets[1].backgroundColor=bgYColor8;
+	    	
+	    	if(ytdIcw <94) //Tier5
+	        	bgColor8.push('red');
+	        else if(ytdIcw >=94 && ytdIcw <95) //Tier4
+	        	bgColor8.push('#EF6C00');
+	        else if(ytdIcw >=95 && ytdIcw <97) //Tier3
+	        	bgColor8.push('green');
+	        else
+	        	bgColor8.push('#74c474');
+	    	chrt.update();
+	    	chrt1.update();
+	    	chrt2.update();
+	    	chrt3.update();
+	    	chrt4.update();
+	    	chrt5.update();
+	    	chrt6.update();
+	    	chrt7.update();
+	    	chrt8.update();
+	    	$('#divcharts').show();
 	    	}
 	    /*else
 	    	{
@@ -1342,7 +1526,7 @@ $(document).ready(function(){
 	
 	
 	$("#agentScorecard").click(function() {
-		window.location = "http://awswauto01d:8080/ScorecardDashboard/";
+		window.location = "http://awswauto01d:8080/ScorecardDashboard/ReverseCSAgent.jsp";
     });
 	$("#amScorecard").click(function() {
 		window.location = "http://awswauto01d:8080/ScorecardDashboard/AMScoreCard.jsp";
